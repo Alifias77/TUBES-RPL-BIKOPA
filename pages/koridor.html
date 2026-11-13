@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Koridor & Armada - BIKOPA Trans Palu</title>
+  <meta name="description" content="Informasi lengkap 5 koridor Bus Trans Palu, rute lintasan, daftar halte, dan armada yang beroperasi.">
+  <meta name="claude:viewport-fit-sides" content="cover">
+
+  <!-- Favicon / Logo Title Website -->
+  <link rel="icon" type="image/png" href="../IMAGE/LOGO BIKOPA.png">
+  <link rel="shortcut icon" href="../IMAGE/LOGO BIKOPA.png">
+  <link rel="apple-touch-icon" href="../IMAGE/LOGO BIKOPA.png">
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: 'var(--navy)',
+            deep: 'var(--deep)',
+            coral: 'var(--coral)',
+            sky: 'var(--sky)',
+            sun: 'var(--sun)',
+            mist: 'var(--mist)',
+            ink: 'var(--ink)'
+          },
+          fontFamily: {
+            display: ['"Barlow Condensed"', 'Arial Narrow', 'sans-serif'],
+            body: ['"DM Sans"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Modular CSS -->
+  <link rel="stylesheet" href="../css/bikopa.css">
+</head>
+<body class="bg-white text-ink font-body">
+
+  <!-- SVG Icon & Vehicle Symbols -->
+  <svg width="0" height="0" class="absolute" aria-hidden="true">
+    <defs>
+      <symbol id="bus-side" viewBox="0 0 420 160">
+        <ellipse cx="210" cy="146" rx="195" ry="8" fill="#000" opacity=".22"/>
+        <rect x="10" y="18" width="400" height="108" rx="20" fill="#f4f6fa"/>
+        <rect x="10" y="100" width="400" height="10" fill="#ff6b4a"/>
+        <rect x="28" y="34" width="300" height="52" rx="8" fill="#1d2b45"/>
+        <g stroke="#f4f6fa" stroke-width="5"><path d="M78 34v52M128 34v52M178 34v52M228 34v52M278 34v52"/></g>
+        <path d="M340 34h26q28 0 36 24v28h-62z" fill="#1d2b45"/>
+        <rect x="392" y="96" width="12" height="9" rx="3" fill="#ffc233"/>
+        <circle cx="92" cy="128" r="23" fill="#111827"/><circle cx="92" cy="128" r="10" fill="#9aa5b8"/>
+        <circle cx="326" cy="128" r="23" fill="#111827"/><circle cx="326" cy="128" r="10" fill="#9aa5b8"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- HEADER / NAVIGATION -->
+  <header class="sticky top-0 z-40 border-b border-white/20 bg-navy/95 backdrop-blur-md text-white">
+    <nav class="wrap gutter flex items-center justify-between gap-4 py-3" aria-label="Navigasi utama">
+      <a href="index.html" class="flex items-center gap-3 rounded focus-ring">
+        <span class="grid h-10 w-10 place-items-center rounded-lg bg-white overflow-hidden p-1 shadow">
+          <img src="../IMAGE/LOGO BIKOPA.png" alt="Logo BIKOPA" class="h-full w-full object-contain">
+        </span>
+        <span class="text-base font-bold tracking-wider text-white">BIKOPA</span>
+      </a>
+      <ul class="hidden items-center gap-7 text-[13px] font-medium uppercase tracking-wide text-white/85 lg:flex">
+        <li><a class="rounded hover:text-white focus-ring py-1" href="index.html">Beranda</a></li>
+        <li><a class="rounded text-coral font-bold border-b-2 border-coral pb-1 focus-ring" href="koridor.html">Koridor</a></li>
+        <li><a class="rounded hover:text-white focus-ring py-1" href="jadwal.html">Jadwal</a></li>
+        <li><a class="rounded hover:text-white focus-ring py-1" href="hub.html">Hub</a></li>
+        <li><a class="rounded hover:text-white focus-ring py-1" href="peta.html">Peta</a></li>
+        <li><a class="rounded hover:text-white focus-ring py-1" href="kontak.html">Kontak</a></li>
+      </ul>
+      <div class="flex items-center gap-2">
+        <a href="peta.html" class="inline-flex min-h-[44px] items-center border border-white/70 px-5 text-[13px] font-medium uppercase tracking-wide hover:bg-white hover:text-navy focus-ring transition-colors">Buka Peta</a>
+        <button id="menu-btn" type="button" class="grid h-11 w-11 place-items-center border border-white/40 focus-ring lg:hidden" aria-label="Buka menu" aria-expanded="false" aria-controls="menu">
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+    <div id="menu" hidden class="border-t border-white/15 lg:hidden">
+      <ul class="wrap gutter grid grid-cols-2 gap-x-4 py-2 text-sm font-medium uppercase tracking-wide text-white/90">
+        <li><a class="flex min-h-[44px] items-center" href="index.html">Beranda</a></li>
+        <li><a class="flex min-h-[44px] items-center text-coral font-bold" href="koridor.html">Koridor</a></li>
+        <li><a class="flex min-h-[44px] items-center" href="jadwal.html">Jadwal</a></li>
+        <li><a class="flex min-h-[44px] items-center" href="hub.html">Hub</a></li>
+        <li><a class="flex min-h-[44px] items-center" href="peta.html">Peta</a></li>
+        <li><a class="flex min-h-[44px] items-center" href="kontak.html">Kontak</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page Header Banner -->
+    <section class="bg-[#162646] text-white py-12 md:py-16 border-b border-white/10" style="background-image: linear-gradient(180deg, #162646 0%, #1b2d52 50%, #121e3a 100%);">
+      <div class="wrap gutter">
+        <div class="max-w-3xl">
+          <span class="inline-flex items-center gap-2 rounded-full bg-coral/20 px-3.5 py-1 text-xs font-bold text-coral border border-coral/30 uppercase tracking-wider mb-3">
+            Layanan Koridor Resmi
+          </span>
+          <h1 class="display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-wide text-white">
+            Pilih <span class="text-coral">Koridor</span> Sesuai Rute Tujuan Anda
+          </h1>
+          <p class="mt-4 text-base sm:text-lg text-white/80 leading-relaxed">
+            Bus Trans Palu melayani 5 koridor terintegrasi yang menghubungkan pusat perkantoran, universitas, pasar induk, bandara, hingga pelabuhan. Ketuk kartu koridor untuk melihat daftar halte atau membukanya di peta.
+          </p>
+          <div class="mt-6 flex flex-wrap items-center gap-4 text-xs sm:text-sm text-white/70">
+            <span class="flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-coral"></span> 5 Koridor Aktif</span>
+            <span class="flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-sun"></span> 53 Titik Pemberhentian</span>
+            <span class="flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-sky"></span> Headway Tiap 15 Menit</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Corridor Quick Grid (Interactive Tiles) -->
+    <section class="bg-navy py-10 md:py-14 text-white border-b border-white/10" aria-label="Pintasan Koridor">
+      <div class="wrap gutter">
+        <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+          <div>
+            <h2 class="display text-2xl sm:text-3xl font-bold uppercase text-white">Pintasan Koridor &amp; Armada</h2>
+            <p class="text-xs sm:text-sm text-white/70">Klik untuk melihat detail urutan halte atau melacak armada aktif.</p>
+          </div>
+          <a href="peta.html" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-coral hover:underline focus-ring rounded">
+            <span>Buka di Peta Live</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+        <div id="grid" class="grid grid-cols-2 gap-4 md:grid-cols-4"></div>
+      </div>
+    </section>
+
+    <!-- Detailed Corridor Breakdown List -->
+    <section class="py-12 md:py-16 bg-[#f8fafc]" aria-labelledby="rincian-koridor">
+      <div class="wrap gutter">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <h2 id="rincian-koridor" class="display text-3xl sm:text-4xl font-extrabold uppercase text-navy">
+            Rincian Lengkap <span class="text-coral">5 Koridor</span>
+          </h2>
+          <p class="mt-2 text-sm sm:text-base text-ink/70">
+            Ketahui lintasan jalan raya, jumlah titik halte terintegrasi, dan titik hub transfer untuk tiap koridor.
+          </p>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Koridor 01 -->
+          <article class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-200/90 transition-all hover:shadow-md">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+              <div class="flex items-start sm:items-center gap-3">
+                <span class="rounded-xl bg-[#EF4444] text-white px-3.5 py-1.5 text-base font-extrabold shadow-sm shrink-0">01</span>
+                <div>
+                  <h3 class="text-xl sm:text-2xl font-bold text-navy">Pantoloan – Pusat Kota (Taman GOR)</h3>
+                  <p class="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">Koridor Utama Lintas Utara (PP)</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="window.BikopaUI.openCorridorDetail('01')" class="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-navy px-4 text-xs sm:text-sm font-bold text-white hover:bg-navy/90 focus-ring">
+                  Daftar Halte &rarr;
+                </button>
+                <a href="peta.html?koridor=01" class="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-coral text-coral px-4 text-xs sm:text-sm font-bold hover:bg-coral hover:text-white focus-ring transition-colors">
+                  Peta Rute
+                </a>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-5 text-sm">
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lintasan Utama</p>
+                <p class="font-medium text-navy mt-1">Jl. Trans Sulawesi, Tondo, Untad, Jl. RE Martadinata, Jl. Yos Sudarso</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kapasitas &amp; Jadwal</p>
+                <p class="font-medium text-navy mt-1">19 Halte · 06:00 – 21:00 WITA · Tiap 15 Menit</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Titik Transfer Hub</p>
+                <p class="font-medium text-navy mt-1">Pelabuhan Pantoloan (HLT-001) &amp; Taman GOR (HLT-002)</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Koridor 02 -->
+          <article class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-200/90 transition-all hover:shadow-md">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+              <div class="flex items-start sm:items-center gap-3">
+                <span class="rounded-xl bg-[#3B82F6] text-white px-3.5 py-1.5 text-base font-extrabold shadow-sm shrink-0">02</span>
+                <div>
+                  <h3 class="text-xl sm:text-2xl font-bold text-navy">Balai Kota – Pasar Manonda</h3>
+                  <p class="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">Koridor Sentra Pemerintahan &amp; Perniagaan (PP)</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="window.BikopaUI.openCorridorDetail('02')" class="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-navy px-4 text-xs sm:text-sm font-bold text-white hover:bg-navy/90 focus-ring">
+                  Daftar Halte &rarr;
+                </button>
+                <a href="peta.html?koridor=02" class="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-coral text-coral px-4 text-xs sm:text-sm font-bold hover:bg-coral hover:text-white focus-ring transition-colors">
+                  Peta Rute
+                </a>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-5 text-sm">
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lintasan Utama</p>
+                <p class="font-medium text-navy mt-1">Jl. Balai Kota, Jl. Moh. Hatta, Jl. Sudirman, Jl. Sis Al-Jufri, Jl. Kunduri</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kapasitas &amp; Jadwal</p>
+                <p class="font-medium text-navy mt-1">22 Halte · 06:00 – 21:00 WITA · Tiap 15 Menit</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Titik Transfer Hub</p>
+                <p class="font-medium text-navy mt-1">Balai Kota (HLT-003) &amp; Pasar Inpres Manonda (HLT-004)</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Koridor 03M -->
+          <article class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-200/90 transition-all hover:shadow-md">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+              <div class="flex items-start sm:items-center gap-3">
+                <span class="rounded-xl bg-[#10B981] text-white px-3 py-1.5 text-base font-extrabold shadow-sm shrink-0">03M</span>
+                <div>
+                  <h3 class="text-xl sm:text-2xl font-bold text-navy">Pusat Kota – Bandara MSA (via Monginsidi)</h3>
+                  <p class="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">Koridor Akses Bandara Jalur Timur (PP)</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="window.BikopaUI.openCorridorDetail('03M')" class="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-navy px-4 text-xs sm:text-sm font-bold text-white hover:bg-navy/90 focus-ring">
+                  Daftar Halte &rarr;
+                </button>
+                <a href="peta.html?koridor=03M" class="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-coral text-coral px-4 text-xs sm:text-sm font-bold hover:bg-coral hover:text-white focus-ring transition-colors">
+                  Peta Rute
+                </a>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-5 text-sm">
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lintasan Utama</p>
+                <p class="font-medium text-navy mt-1">Taman GOR, Jl. Wolter Monginsidi, Jl. Dewi Sartika, Bandara SIS Al-Jufri</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kapasitas &amp; Jadwal</p>
+                <p class="font-medium text-navy mt-1">18 Halte · 06:00 – 21:00 WITA · Tiap 15 Menit</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Titik Transfer Hub</p>
+                <p class="font-medium text-navy mt-1">Taman GOR (HLT-002) &amp; Bandara Mutiara MSA (HLT-005)</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Koridor 03Y -->
+          <article class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-200/90 transition-all hover:shadow-md">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+              <div class="flex items-start sm:items-center gap-3">
+                <span class="rounded-xl bg-[#F59E0B] text-white px-3 py-1.5 text-base font-extrabold shadow-sm shrink-0">03Y</span>
+                <div>
+                  <h3 class="text-xl sm:text-2xl font-bold text-navy">Pusat Kota – Bandara MSA (via Moh. Yamin)</h3>
+                  <p class="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">Koridor Akses Bandara Jalur Tengah / Balai Kota (PP)</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="window.BikopaUI.openCorridorDetail('03Y')" class="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-navy px-4 text-xs sm:text-sm font-bold text-white hover:bg-navy/90 focus-ring">
+                  Daftar Halte &rarr;
+                </button>
+                <a href="peta.html?koridor=03Y" class="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-coral text-coral px-4 text-xs sm:text-sm font-bold hover:bg-coral hover:text-white focus-ring transition-colors">
+                  Peta Rute
+                </a>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-5 text-sm">
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lintasan Utama</p>
+                <p class="font-medium text-navy mt-1">Taman GOR, Jl. Prof. Moh. Yamin, Balai Kota, Jl. I Gusti Ngurah Rai, Bandara MSA</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kapasitas &amp; Jadwal</p>
+                <p class="font-medium text-navy mt-1">20 Halte · 06:00 – 21:00 WITA · Tiap 15 Menit</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Titik Transfer Hub</p>
+                <p class="font-medium text-navy mt-1">Taman GOR (HLT-002), Balai Kota (HLT-003), Bandara MSA (HLT-005)</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Koridor 04 -->
+          <article class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-200/90 transition-all hover:shadow-md">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+              <div class="flex items-start sm:items-center gap-3">
+                <span class="rounded-xl bg-[#8B5CF6] text-white px-3.5 py-1.5 text-base font-extrabold shadow-sm shrink-0">04</span>
+                <div>
+                  <h3 class="text-xl sm:text-2xl font-bold text-navy">Bandara MSA – Terminal Tipo</h3>
+                  <p class="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">Koridor Penghubung Bandara ke Wilayah Barat Palu (PP)</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="window.BikopaUI.openCorridorDetail('04')" class="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-navy px-4 text-xs sm:text-sm font-bold text-white hover:bg-navy/90 focus-ring">
+                  Daftar Halte &rarr;
+                </button>
+                <a href="peta.html?koridor=04" class="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-coral text-coral px-4 text-xs sm:text-sm font-bold hover:bg-coral hover:text-white focus-ring transition-colors">
+                  Peta Rute
+                </a>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-5 text-sm">
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lintasan Utama</p>
+                <p class="font-medium text-navy mt-1">Bandara MSA, Jl. Tavanjuka, Jl. Banteng, Palu Grand Mall, Terminal Tipo</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kapasitas &amp; Jadwal</p>
+                <p class="font-medium text-navy mt-1">24 Halte · 06:00 – 21:00 WITA · Tiap 15 Menit</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Titik Transfer Hub</p>
+                <p class="font-medium text-navy mt-1">Bandara MSA (HLT-005) &amp; Terminal Tipo (HLT-006)</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- SiteFooter -->
+  <footer id="kontak" class="bg-deep text-white py-12 md:py-16 border-t border-white/10">
+    <div class="wrap gutter w-full">
+      <div class="grid gap-8 py-10 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1.2fr]">
+        <div>
+          <p class="display text-2xl font-bold tracking-wide">BIKOPA</p>
+          <p class="mt-2 max-w-xs text-sm leading-relaxed text-white/65">Sistem informasi rute, halte, dan pelacakan Bus Trans Palu.</p>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[.16em] text-white/50">Halaman</p>
+          <ul class="mt-3 space-y-2 text-sm text-white/80">
+            <li><a class="hover:text-white" href="index.html">Beranda</a></li>
+            <li><a class="text-coral font-bold" href="koridor.html">Koridor</a></li>
+            <li><a class="hover:text-white" href="jadwal.html">Jadwal &amp; Halte</a></li>
+            <li><a class="hover:text-white" href="hub.html">Hub Transfer</a></li>
+            <li><a class="hover:text-white" href="peta.html">Peta Interaktif</a></li>
+            <li><a class="hover:text-white" href="kontak.html">Kontak Dishub</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[.16em] text-white/50">Dinas Perhubungan Kota Palu</p>
+          <p class="mt-3 text-sm leading-relaxed text-white/80">Jl. Balai Kota Timur No. 1, Tanamodindi, Kec. Mantikulore, Kota Palu 94111</p>
+          <p class="mt-1 select-all text-sm text-white/80">Telp (0451) 421666</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 py-5">
+        <p class="text-xs text-white/50">Kelompok 7, Teknik Informatika, Universitas Tadulako. Pratinjau data resmi Dishub Palu.</p>
+        <div class="flex items-center gap-3">
+          <a href="kontak.html" class="inline-flex min-h-[44px] items-center rounded-full bg-sun px-5 text-xs font-bold text-ink hover:brightness-95 focus-ring">Hubungi Dishub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- StopSheet Modal -->
+  <div id="sheet-bg" hidden class="fixed inset-0 z-[65]" style="background: rgba(18,30,58,.45);"></div>
+  <div id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" aria-hidden="true">
+    <div class="mx-auto max-w-[640px] rounded-t-3xl bg-white shadow-xl" style="padding: 12px max(20px, env(safe-area-inset-right, 0px)) max(20px, env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));">
+      <div class="mx-auto mb-3 h-1.5 w-12 rounded-full bg-ink/15"></div>
+      <div class="flex items-start justify-between gap-3">
+        <div class="min-w-0">
+          <p id="sheet-kicker" class="text-[11px] font-bold uppercase tracking-wider text-ink/50"></p>
+          <h3 id="sheet-title" class="display text-3xl font-bold text-navy"></h3>
+        </div>
+        <button id="sheet-x" type="button" class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mist text-navy focus-ring" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div id="sheet-body" class="mt-4 space-y-2"></div>
+    </div>
+  </div>
+
+  <!-- Location Consent Modal -->
+  <div id="consent" hidden class="fixed inset-0 z-[80] grid place-items-center p-4" style="background: rgba(18,30,58,.55);">
+    <div role="dialog" aria-modal="true" aria-labelledby="consent-title" class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
+      <h3 id="consent-title" class="display text-2xl font-bold text-navy">Gunakan lokasi Anda?</h3>
+      <p class="mt-2 text-sm leading-relaxed text-ink/75">Lokasi dipakai hanya di perangkat Anda untuk mencari halte terdekat. Lokasi tidak dikirim dan tidak disimpan.</p>
+      <div class="mt-5 flex flex-wrap gap-3">
+        <button id="consent-ok" type="button" class="min-h-[44px] rounded-lg bg-coral px-5 text-sm font-bold text-white focus-ring">Izinkan</button>
+        <button id="consent-no" type="button" class="min-h-[44px] rounded-lg border border-ink/20 px-5 text-sm font-bold text-navy focus-ring">Tidak sekarang</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,521 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #1b2d52;
+  --deep: #121e3a;
+  --coral: #ff6b4a;
+  --sky: #4f9fe0;
+  --sun: #ffc233;
+  --mist: #f3f6fb;
+  --ink: #17233f;
+  --paper: #ffffff;
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "DM Sans", system-ui, sans-serif;
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+  position: relative;
+}
+
+.gutter {
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.wrap {
+  max-width: 1180px;
+  margin-inline: auto;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+.display {
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  letter-spacing: .01em;
+}
+
+.focus-ring:focus-visible {
+  outline: 3px solid var(--sun);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lift {
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .lift:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.tab {
+  color: rgba(23,35,63,.7);
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  min-height: 44px;
+}
+
+.tab:hover {
+  color: var(--ink);
+}
+
+.tab[aria-selected="true"] {
+  background: var(--coral);
+  color: #fff;
+  border-radius: 8px 8px 0 0;
+}
+
+.kb {
+  display: inline-block;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: .02em;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  min-height: 44px;
+  border-radius: 9999px;
+  padding: .25rem .9rem;
+  font-size: .8rem;
+  font-weight: 700;
+  border: 1px solid rgba(23,35,63,.18);
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.chip[aria-pressed="false"] {
+  opacity: .5;
+}
+
+.chip[aria-pressed="false"] .sw {
+  background: #cbd2de !important;
+}
+
+.sw {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+.sdot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  display: inline-block;
+  flex: none;
+}
+
+.st-ACTIVE {
+  background: var(--sky);
+}
+
+.st-STALE {
+  background: var(--sun);
+}
+
+.st-OFFLINE {
+  background: rgba(23,35,63,.45);
+}
+
+#sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  transform: translateY(105%);
+}
+
+#sheet.open {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #sheet {
+    transition: transform .25s ease;
+  }
+}
+
+.mapfull {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 60 !important;
+  background: #ffffff !important;
+  overflow-y: auto !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: env(safe-area-inset-top, 0px) max(0px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(0px, env(safe-area-inset-left, 0px));
+}
+
+#map text {
+  font-family: "DM Sans", system-ui, sans-serif;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.hubdot {
+  cursor: pointer;
+}
+
+.hubdot:focus-visible {
+  outline: none;
+}
+
+.hubdot:focus-visible circle.ring {
+  stroke: #ffc233;
+  stroke-width: 4;
+}
+
+.busg {
+  cursor: pointer;
+}
+
+.bikopa-halte-marker,
+.bikopa-bus-marker,
+.bikopa-user-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.bikopa-halte-marker:hover {
+  transform: scale(1.15);
+  transition: transform 0.15s ease;
+  z-index: 1000 !important;
+}
+
+@keyframes gpsPulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(2.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.gps-pulse-ring {
+  animation: gpsPulse 2s cubic-bezier(0.2, 0.6, 0.35, 1) infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ==========================================
+   Hero Bus Entrance Animation & Ground Dynamics
+   ========================================== */
+@keyframes busArriveMotion {
+  0% {
+    opacity: 0;
+    transform: translate3d(100px, 0, 0) scale(0.94);
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes busShadowArrive {
+  0% {
+    opacity: 0;
+    transform: translate3d(100px, 0, 0) scale(0.85);
+  }
+  100% {
+    opacity: 0.45;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.animate-bus-arrive {
+  animation: busArriveMotion 1.25s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  will-change: transform, opacity;
+}
+
+.animate-bus-arrive .hero-bus-shadow {
+  animation: busShadowArrive 1.25s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-bus-arrive,
+  .animate-bus-arrive .hero-bus-shadow {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   Jadwal Uiverse Cards (Base: #121e3a, Hover: White reveal via ::after)
+   From Uiverse.io by TemRevil - adapted for BIKOPA Trans Palu
+   Tampilan card berubah HANYA saat hover pada tombol "Detail Rute Koridor"
+   ========================================================================== */
+
+.jadwal-uiverse-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  min-height: 440px;
+  background-color: #121e3a;
+  color: #ffffff;
+  border-radius: 1.25rem;
+  padding: 1.15rem;
+  cursor: default;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.28), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .jadwal-uiverse-card {
+    padding: 1.5rem;
+  }
+}
+
+/* Card appearance changes ONLY when hovering .card-cta ("Detail Rute Koridor") or for compact cards */
+.jadwal-uiverse-card:has(.card-cta:hover),
+.jadwal-uiverse-card:has(.card-cta:focus-visible),
+.jadwal-uiverse-card.card-compact:hover {
+  border-color: rgba(18, 30, 58, 0.15);
+  box-shadow: 0 20px 35px -8px rgba(18, 30, 58, 0.18), 0 10px 15px -5px rgba(18, 30, 58, 0.1);
+}
+
+.jadwal-uiverse-card:has(.card-cta:active) {
+  transform: scale(0.98);
+}
+
+.jadwal-uiverse-card.card-compact {
+  min-height: 260px;
+  cursor: pointer;
+}
+.jadwal-uiverse-card.card-compact:active {
+  transform: scale(0.97);
+}
+
+/* Rising circular reveal from bottom */
+.jadwal-uiverse-card::after {
+  content: "";
+  position: absolute;
+  width: 750px;
+  height: 750px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: top 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.jadwal-uiverse-card:has(.card-cta:hover)::after,
+.jadwal-uiverse-card:has(.card-cta:focus-visible)::after,
+.jadwal-uiverse-card.card-compact:hover::after {
+  top: -120px;
+}
+
+/* Ensure all interactive contents stay above the rising white circle */
+.jadwal-uiverse-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  flex: 1 1 0%;
+}
+
+/* Dynamic color transitions when .card-cta is hovered */
+.jadwal-uiverse-card .card-title {
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+.jadwal-uiverse-card:has(.card-cta:hover) .card-title,
+.jadwal-uiverse-card:has(.card-cta:focus-visible) .card-title,
+.jadwal-uiverse-card.card-compact:hover .card-title {
+  color: #121e3a;
+}
+
+.jadwal-uiverse-card .card-badge {
+  background-color: #ffffff;
+  color: #121e3a;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+.jadwal-uiverse-card:has(.card-cta:hover) .card-badge,
+.jadwal-uiverse-card:has(.card-cta:focus-visible) .card-badge,
+.jadwal-uiverse-card.card-compact:hover .card-badge {
+  background-color: #ff6b4a;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(255, 107, 74, 0.35);
+}
+
+.jadwal-uiverse-card .card-subtitle {
+  color: rgba(255, 255, 255, 0.88);
+  transition: color 0.3s ease;
+}
+.jadwal-uiverse-card:has(.card-cta:hover) .card-subtitle,
+.jadwal-uiverse-card:has(.card-cta:focus-visible) .card-subtitle,
+.jadwal-uiverse-card.card-compact:hover .card-subtitle {
+  color: #ff6b4a;
+  font-weight: 600;
+}
+
+.jadwal-uiverse-card .card-schedule {
+  color: rgba(255, 255, 255, 0.95);
+  transition: color 0.3s ease;
+}
+.jadwal-uiverse-card:has(.card-cta:hover) .card-schedule,
+.jadwal-uiverse-card:has(.card-cta:focus-visible) .card-schedule {
+  color: #121e3a;
+  font-weight: 600;
+}
+
+.jadwal-uiverse-card .card-via {
+  color: rgba(255, 255, 255, 0.72);
+  transition: color 0.3s ease;
+}
+.jadwal-uiverse-card:has(.card-cta:hover) .card-via,
+.jadwal-uiverse-card:has(.card-cta:focus-visible) .card-via,
+.jadwal-uiverse-card.card-compact:hover .card-via {
+  color: #475569;
+}
+
+/* Center Halte Image with floating effect */
+.jadwal-uiverse-card .card-halte-img {
+  transition: transform 0.4s cubic-bezier(0.34, 1.35, 0.64, 1), filter 0.3s ease;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
+}
+.jadwal-uiverse-card:has(.card-cta:hover) .card-halte-img,
+.jadwal-uiverse-card:has(.card-cta:focus-visible) .card-halte-img {
+  transform: translateY(-4px) scale(1.04);
+  filter: drop-shadow(0 14px 22px rgba(18, 30, 58, 0.22));
+}
+
+/* Footer divider & meta */
+.jadwal-uiverse-card .card-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  transition: border-color 0.3s ease;
+}
+.jadwal-uiverse-card:has(.card-cta:hover) .card-divider,
+.jadwal-uiverse-card:has(.card-cta:focus-visible) .card-divider,
+.jadwal-uiverse-card.card-compact:hover .card-divider {
+  border-top-color: rgba(18, 30, 58, 0.12);
+}
+
+.jadwal-uiverse-card .card-stops {
+  color: rgba(255, 255, 255, 0.9);
+  transition: color 0.3s ease;
+}
+.jadwal-uiverse-card:has(.card-cta:hover) .card-stops,
+.jadwal-uiverse-card:has(.card-cta:focus-visible) .card-stops,
+.jadwal-uiverse-card.card-compact:hover .card-stops {
+  color: #121e3a;
+  font-weight: 600;
+}
+
+.jadwal-uiverse-card .card-stops svg {
+  color: rgba(255, 255, 255, 0.75);
+  transition: color 0.3s ease;
+}
+.jadwal-uiverse-card:has(.card-cta:hover) .card-stops svg,
+.jadwal-uiverse-card:has(.card-cta:focus-visible) .card-stops svg,
+.jadwal-uiverse-card.card-compact:hover .card-stops svg {
+  color: #ff6b4a;
+}
+
+/* Hub tags in Tab 1 */
+.jadwal-uiverse-card .card-hub-tag {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.jadwal-uiverse-card:has(.card-cta:hover) .card-hub-tag,
+.jadwal-uiverse-card:has(.card-cta:focus-visible) .card-hub-tag {
+  background-color: rgba(18, 30, 58, 0.1) !important;
+  color: #121e3a !important;
+  border-color: rgba(18, 30, 58, 0.15) !important;
+}
+
+/* CTA Button ("Detail Rute Koridor") */
+.jadwal-uiverse-card .card-cta {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+.jadwal-uiverse-card .card-cta:hover,
+.jadwal-uiverse-card .card-cta:focus-visible {
+  background-color: #ff6b4a;
+  color: #ffffff;
+  border-color: #ff6b4a;
+  box-shadow: 0 4px 14px rgba(255, 107, 74, 0.4);
+  transform: translateY(-1px);
+}
+.jadwal-uiverse-card .card-cta:active {
+  background-color: #e05335;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jadwal-uiverse-card::after {
+    transition: none !important;
+  }
+  .jadwal-uiverse-card,
+  .jadwal-uiverse-card .card-halte-img {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jadwal & Halte - BIKOPA Trans Palu</title>
+  <meta name="description" content="Jadwal keberangkatan bus tiap 15 menit, daftar 53 halte terintegrasi, dan panduan layanan Trans Palu.">
+  <meta name="claude:viewport-fit-sides" content="cover">
+
+  <!-- Favicon / Logo Title Website -->
+  <link rel="icon" type="image/png" href="../IMAGE/LOGO BIKOPA.png">
+  <link rel="shortcut icon" href="../IMAGE/LOGO BIKOPA.png">
+  <link rel="apple-touch-icon" href="../IMAGE/LOGO BIKOPA.png">
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: 'var(--navy)',
+            deep: 'var(--deep)',
+            coral: 'var(--coral)',
+            sky: 'var(--sky)',
+            sun: 'var(--sun)',
+            mist: 'var(--mist)',
+            ink: 'var(--ink)'
+          },
+          fontFamily: {
+            display: ['"Barlow Condensed"', 'Arial Narrow', 'sans-serif'],
+            body: ['"DM Sans"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Modular CSS -->
+  <link rel="stylesheet" href="../css/bikopa.css">
+</head>
+<body class="bg-white text-ink font-body">
+
+  <!-- HEADER / NAVIGATION -->
+  <header class="sticky top-0 z-40 border-b border-white/20 bg-navy/95 backdrop-blur-md text-white">
+    <nav class="wrap gutter flex items-center justify-between gap-4 py-3" aria-label="Navigasi utama">
+      <a href="index.html" class="flex items-center gap-3 rounded focus-ring">
+        <span class="grid h-10 w-10 place-items-center rounded-lg bg-white overflow-hidden p-1 shadow">
+          <img src="../IMAGE/LOGO BIKOPA.png" alt="Logo BIKOPA" class="h-full w-full object-contain">
+        </span>
+        <span class="text-base font-bold tracking-wider text-white">BIKOPA</span>
+      </a>
+      <ul class="hidden items-center gap-7 text-[13px] font-medium uppercase tracking-wide text-white/85 lg:flex">
+        <li><a class="rounded hover:text-white focus-ring py-1" href="index.html">Beranda</a></li>
+        <li><a class="rounded hover:text-white focus-ring py-1" href="koridor.html">Koridor</a></li>
+        <li><a class="rounded text-coral font-bold border-b-2 border-coral pb-1 focus-ring" href="jadwal.html">Jadwal</a></li>
+        <li><a class="rounded hover:text-white focus-ring py-1" href="hub.html">Hub</a></li>
+        <li><a class="rounded hover:text-white focus-ring py-1" href="peta.html">Peta</a></li>
+        <li><a class="rounded hover:text-white focus-ring py-1" href="kontak.html">Kontak</a></li>
+      </ul>
+      <div class="flex items-center gap-2">
+        <a href="peta.html" class="inline-flex min-h-[44px] items-center border border-white/70 px-5 text-[13px] font-medium uppercase tracking-wide hover:bg-white hover:text-navy focus-ring transition-colors">Buka Peta</a>
+        <button id="menu-btn" type="button" class="grid h-11 w-11 place-items-center border border-white/40 focus-ring lg:hidden" aria-label="Buka menu" aria-expanded="false" aria-controls="menu">
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+    <div id="menu" hidden class="border-t border-white/15 lg:hidden">
+      <ul class="wrap gutter grid grid-cols-2 gap-x-4 py-2 text-sm font-medium uppercase tracking-wide text-white/90">
+        <li><a class="flex min-h-[44px] items-center" href="index.html">Beranda</a></li>
+        <li><a class="flex min-h-[44px] items-center" href="koridor.html">Koridor</a></li>
+        <li><a class="flex min-h-[44px] items-center text-coral font-bold" href="jadwal.html">Jadwal</a></li>
+        <li><a class="flex min-h-[44px] items-center" href="hub.html">Hub</a></li>
+        <li><a class="flex min-h-[44px] items-center" href="peta.html">Peta</a></li>
+        <li><a class="flex min-h-[44px] items-center" href="kontak.html">Kontak</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page Header Banner -->
+    <section class="bg-[#162646] text-white py-12 md:py-16 border-b border-white/10" style="background-image: linear-gradient(180deg, #162646 0%, #1b2d52 50%, #121e3a 100%);">
+      <div class="wrap gutter">
+        <div class="max-w-3xl">
+          <span class="inline-flex items-center gap-2 rounded-full bg-sun/20 px-3.5 py-1 text-xs font-bold text-sun border border-sun/30 uppercase tracking-wider mb-3">
+            Informasi Operasional &amp; Bantuan
+          </span>
+          <h1 class="display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-wide text-white">
+            Jadwal Keberangkatan, <span class="text-coral">Halte</span> &amp; Bantuan
+          </h1>
+          <p class="mt-4 text-base sm:text-lg text-white/80 leading-relaxed">
+            Bus Trans Palu beroperasi setiap hari mulai pukul 06:00 hingga 21:00 WITA dengan frekuensi kedatangan (headway) setiap 15 menit. Pilih tab di bawah untuk melihat rincian jadwal, daftar halte per lintasan, atau panduan menaiki bus.
+          </p>
+        </div>
+
+        <!-- Quick Stats Cards -->
+        <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl">
+          <div class="rounded-xl bg-white/10 backdrop-blur p-4 border border-white/10">
+            <p class="text-xs font-semibold text-white/70 uppercase tracking-wider">Jam Operasional</p>
+            <p class="mt-1 text-lg sm:text-xl font-extrabold text-white">06:00 – 21:00</p>
+            <p class="text-[11px] text-white/60">WITA (Setiap Hari)</p>
+          </div>
+          <div class="rounded-xl bg-white/10 backdrop-blur p-4 border border-white/10">
+            <p class="text-xs font-semibold text-white/70 uppercase tracking-wider">Interval (Headway)</p>
+            <p class="mt-1 text-lg sm:text-xl font-extrabold text-sun">15 Menit</p>
+            <p class="text-[11px] text-white/60">Estimasi kedatangan</p>
+          </div>
+          <div class="rounded-xl bg-white/10 backdrop-blur p-4 border border-white/10">
+            <p class="text-xs font-semibold text-white/70 uppercase tracking-wider">Tarif Saat Ini</p>
+            <p class="mt-1 text-lg sm:text-xl font-extrabold text-coral">Rp 0 (Gratis)</p>
+            <p class="text-[11px] text-white/60">Masa sosialisasi BTS</p>
+          </div>
+          <div class="rounded-xl bg-white/10 backdrop-blur p-4 border border-white/10">
+            <p class="text-xs font-semibold text-white/70 uppercase tracking-wider">Total Pemberhentian</p>
+            <p class="mt-1 text-lg sm:text-xl font-extrabold text-white">53 Titik</p>
+            <p class="text-[11px] text-white/60">Halte &amp; Bus Stop</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Info Tabs Section (Jadwal, Halte, Bantuan) -->
+    <section id="layanan" class="gutter py-12 md:py-16 bg-white min-h-[600px]" aria-labelledby="judul-layanan">
+      <div class="wrap w-full">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 id="judul-layanan" class="display text-3xl font-bold uppercase tracking-wide text-navy sm:text-4xl">
+              Kategori <span class="text-coral">Informasi Layanan</span>
+            </h2>
+            <p class="text-sm text-ink/70 mt-1">Pilih tab untuk beralih antara jadwal, daftar halte per koridor, atau panduan bantuan.</p>
+          </div>
+        </div>
+
+        <!-- Tab Controls -->
+        <div class="overflow-x-auto">
+          <div role="tablist" aria-label="Kategori informasi" class="flex min-w-max border-b border-ink/10">
+            <button role="tab" id="tab-0" aria-selected="true" aria-controls="panel-tab" class="tab focus-ring px-6 text-sm font-bold">Jadwal</button>
+            <button role="tab" id="tab-1" aria-selected="false" aria-controls="panel-tab" class="tab focus-ring px-6 text-sm font-bold">Halte</button>
+            <button role="tab" id="tab-2" aria-selected="false" aria-controls="panel-tab" class="tab focus-ring px-6 text-sm font-bold">Bantuan</button>
+          </div>
+        </div>
+
+        <!-- Dynamic Tab Panel -->
+        <div id="panel-tab" role="tabpanel" tabindex="0" class="mt-8 flex flex-wrap justify-center gap-6"></div>
+        <p id="tab-note" class="mt-6 text-center text-xs text-ink/60 font-medium"></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- SiteFooter -->
+  <footer id="kontak" class="bg-deep text-white py-12 md:py-16 border-t border-white/10">
+    <div class="wrap gutter w-full">
+      <div class="grid gap-8 py-10 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1.2fr]">
+        <div>
+          <p class="display text-2xl font-bold tracking-wide">BIKOPA</p>
+          <p class="mt-2 max-w-xs text-sm leading-relaxed text-white/65">Sistem informasi rute, halte, dan pelacakan Bus Trans Palu.</p>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[.16em] text-white/50">Halaman</p>
+          <ul class="mt-3 space-y-2 text-sm text-white/80">
+            <li><a class="hover:text-white" href="index.html">Beranda</a></li>
+            <li><a class="hover:text-white" href="koridor.html">Koridor</a></li>
+            <li><a class="text-coral font-bold" href="jadwal.html">Jadwal &amp; Halte</a></li>
+            <li><a class="hover:text-white" href="hub.html">Hub Transfer</a></li>
+            <li><a class="hover:text-white" href="peta.html">Peta Interaktif</a></li>
+            <li><a class="hover:text-white" href="kontak.html">Kontak Dishub</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[.16em] text-white/50">Dinas Perhubungan Kota Palu</p>
+          <p class="mt-3 text-sm leading-relaxed text-white/80">Jl. Balai Kota Timur No. 1, Tanamodindi, Kec. Mantikulore, Kota Palu 94111</p>
+          <p class="mt-1 select-all text-sm text-white/80">Telp (0451) 421666</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 py-5">
+        <p class="text-xs text-white/50">Kelompok 7, Teknik Informatika, Universitas Tadulako. Pratinjau data resmi Dishub Palu.</p>
+        <div class="flex items-center gap-3">
+          <a href="kontak.html" class="inline-flex min-h-[44px] items-center rounded-full bg-sun px-5 text-xs font-bold text-ink hover:brightness-95 focus-ring">Hubungi Dishub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- StopSheet Modal -->
+  <div id="sheet-bg" hidden class="fixed inset-0 z-[65]" style="background: rgba(18,30,58,.45);"></div>
+  <div id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" aria-hidden="true">
+    <div class="mx-auto max-w-[640px] rounded-t-3xl bg-white shadow-xl" style="padding: 12px max(20px, env(safe-area-inset-right, 0px)) max(20px, env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));">
+      <div class="mx-auto mb-3 h-1.5 w-12 rounded-full bg-ink/15"></div>
+      <div class="flex items-start justify-between gap-3">
+        <div class="min-w-0">
+          <p id="sheet-kicker" class="text-[11px] font-bold uppercase tracking-wider text-ink/50"></p>
+          <h3 id="sheet-title" class="display text-3xl font-bold text-navy"></h3>
+        </div>
+        <button id="sheet-x" type="button" class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mist text-navy focus-ring" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div id="sheet-body" class="mt-4 space-y-2"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/ui.js"></script>
+</body>
+</html>

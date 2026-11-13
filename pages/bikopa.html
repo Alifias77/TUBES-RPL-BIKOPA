@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIKOPA - Sistem Informasi Rute, Halte & Pelacakan Bus</title>
+  <meta name="claude:viewport-fit-sides" content="cover">
+
+  <!-- Favicon / Logo Title Website -->
+  <link rel="icon" type="image/png" href="../IMAGE/LOGO BIKOPA.png">
+  <link rel="shortcut icon" href="../IMAGE/LOGO BIKOPA.png">
+  <link rel="apple-touch-icon" href="../IMAGE/LOGO BIKOPA.png">
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: 'var(--navy)',
+            deep: 'var(--deep)',
+            coral: 'var(--coral)',
+            sky: 'var(--sky)',
+            sun: 'var(--sun)',
+            mist: 'var(--mist)',
+            ink: 'var(--ink)'
+          },
+          fontFamily: {
+            display: ['"Barlow Condensed"', 'Arial Narrow', 'sans-serif'],
+            body: ['"DM Sans"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Modular CSS -->
+  <link rel="stylesheet" href="../css/bikopa.css">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body class="bg-white text-ink font-body">
+
+  <!-- SVG Icon & Vehicle Symbols -->
+  <svg width="0" height="0" class="absolute" aria-hidden="true">
+    <defs>
+      <symbol id="bus-side" viewBox="0 0 420 160">
+        <ellipse cx="210" cy="146" rx="195" ry="8" fill="#000" opacity=".22"/>
+        <rect x="10" y="18" width="400" height="108" rx="20" fill="#f4f6fa"/>
+        <rect x="10" y="100" width="400" height="10" fill="#ff6b4a"/>
+        <rect x="28" y="34" width="300" height="52" rx="8" fill="#1d2b45"/>
+        <g stroke="#f4f6fa" stroke-width="5"><path d="M78 34v52M128 34v52M178 34v52M228 34v52M278 34v52"/></g>
+        <path d="M340 34h26q28 0 36 24v28h-62z" fill="#1d2b45"/>
+        <rect x="392" y="96" width="12" height="9" rx="3" fill="#ffc233"/>
+        <circle cx="92" cy="128" r="23" fill="#111827"/><circle cx="92" cy="128" r="10" fill="#9aa5b8"/>
+        <circle cx="326" cy="128" r="23" fill="#111827"/><circle cx="326" cy="128" r="10" fill="#9aa5b8"/>
+      </symbol>
+      <symbol id="van-side" viewBox="0 0 340 140">
+        <ellipse cx="170" cy="128" rx="158" ry="7" fill="#000" opacity=".22"/>
+        <path d="M10 42Q10 20 32 20H248Q280 20 300 54L324 80Q330 86 330 96V112H10Z" fill="#f4f6fa"/>
+        <rect x="10" y="94" width="320" height="7" fill="#ff6b4a"/>
+        <rect x="30" y="32" width="200" height="40" rx="6" fill="#1d2b45"/>
+        <g stroke="#f4f6fa" stroke-width="5"><path d="M96 32v40M162 32v40"/></g>
+        <path d="M248 32h14q16 0 30 24l8 14h-52z" fill="#1d2b45"/>
+        <circle cx="80" cy="112" r="20" fill="#111827"/><circle cx="80" cy="112" r="9" fill="#9aa5b8"/>
+        <circle cx="260" cy="112" r="20" fill="#111827"/><circle cx="260" cy="112" r="9" fill="#9aa5b8"/>
+      </symbol>
+      <symbol id="car-side" viewBox="0 0 300 120">
+        <ellipse cx="150" cy="110" rx="136" ry="6" fill="#000" opacity=".22"/>
+        <path d="M15 80Q15 62 35 58L70 56Q90 28 122 26H180Q210 28 228 54L268 60Q285 64 285 82V94H15Z" fill="#f4f6fa"/>
+        <path d="M92 54Q104 36 126 36H174Q194 38 208 54Z" fill="#1d2b45"/>
+        <rect x="15" y="82" width="270" height="6" fill="#ff6b4a"/>
+        <circle cx="78" cy="94" r="20" fill="#111827"/><circle cx="78" cy="94" r="9" fill="#9aa5b8"/>
+        <circle cx="224" cy="94" r="20" fill="#111827"/><circle cx="224" cy="94" r="9" fill="#9aa5b8"/>
+      </symbol>
+      <symbol id="bus-front" viewBox="0 0 240 220">
+        <ellipse cx="120" cy="208" rx="100" ry="8" fill="#000" opacity=".2"/>
+        <rect x="10" y="62" width="14" height="42" rx="5" fill="#1d2b45"/>
+        <rect x="216" y="62" width="14" height="42" rx="5" fill="#1d2b45"/>
+        <rect x="26" y="176" width="28" height="30" rx="7" fill="#111827"/>
+        <rect x="186" y="176" width="28" height="30" rx="7" fill="#111827"/>
+        <rect x="30" y="8" width="180" height="176" rx="30" fill="#f7f8fb"/>
+        <rect x="82" y="16" width="76" height="10" rx="4" fill="#ff6b4a"/>
+        <rect x="46" y="34" width="148" height="82" rx="14" fill="#22324f"/>
+        <path d="M58 44h50l-18 62H58z" fill="#fff" opacity=".1"/>
+        <circle cx="120" cy="134" r="9" fill="#ff6b4a"/>
+        <rect x="70" y="146" width="100" height="18" rx="6" fill="#cfd6e2"/>
+        <circle cx="54" cy="150" r="10" fill="#fff" stroke="#ffc233" stroke-width="3"/>
+        <circle cx="186" cy="150" r="10" fill="#fff" stroke="#ffc233" stroke-width="3"/>
+        <rect x="34" y="170" width="172" height="14" rx="7" fill="#9aa5b8"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- HEADER / HERO SECTION -->
+  <header id="beranda" class="relative min-h-screen flex flex-col justify-between overflow-hidden bg-[#162646] text-white">
+    <!-- Background Landmark Image with Opacity & Scrim Overlay for Readability -->
+    <div class="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden">
+      <img
+        src="../public/images/background-home.jpg"
+        alt="Latar Belakang Tugu Sambulu Gana Palu"
+        class="w-full h-full object-cover object-center opacity-60 scale-105"
+      >
+      <!-- Multi-stage scrim gradients to ensure pristine text readability -->
+      <div class="absolute inset-0 bg-gradient-to-r from-[#162646]/90 via-[#162646]/65 to-[#162646]/25" aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#1b2d52]/50 via-transparent to-[#162646]" aria-hidden="true"></div>
+    </div>
+    <div class="sticky top-0 z-40 border-b border-white/20 bg-navy/95 backdrop-blur-md">
+      <nav class="wrap gutter flex items-center justify-between gap-4 py-3" aria-label="Navigasi utama">
+        <a href="index.html" class="flex items-center gap-3 rounded focus-ring">
+          <span class="grid h-10 w-10 place-items-center rounded-lg bg-white overflow-hidden p-1 shadow">
+            <img src="../IMAGE/LOGO BIKOPA.png" alt="Logo BIKOPA" class="h-full w-full object-contain">
+          </span>
+          <span class="text-base font-bold tracking-wider text-white">BIKOPA</span>
+        </a>
+        <ul class="hidden items-center gap-7 text-[13px] font-medium uppercase tracking-wide text-white/85 lg:flex">
+          <li><a class="rounded text-coral font-bold border-b-2 border-coral pb-1 focus-ring" href="index.html">Beranda</a></li>
+          <li><a class="rounded hover:text-white focus-ring py-1" href="koridor.html">Koridor</a></li>
+          <li><a class="rounded hover:text-white focus-ring py-1" href="jadwal.html">Jadwal</a></li>
+          <li><a class="rounded hover:text-white focus-ring py-1" href="hub.html">Hub</a></li>
+          <li><a class="rounded hover:text-white focus-ring py-1" href="peta.html">Peta</a></li>
+          <li><a class="rounded hover:text-white focus-ring py-1" href="kontak.html">Kontak</a></li>
+        </ul>
+        <div class="flex items-center gap-2">
+          <a href="peta.html" class="inline-flex min-h-[44px] items-center border border-white/70 px-5 text-[13px] font-medium uppercase tracking-wide hover:bg-white hover:text-navy focus-ring transition-colors">Buka Peta</a>
+          <button id="menu-btn" type="button" class="grid h-11 w-11 place-items-center border border-white/40 focus-ring lg:hidden" aria-label="Buka menu" aria-expanded="false" aria-controls="menu">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          </button>
+        </div>
+      </nav>
+      <div id="menu" hidden class="border-t border-white/15 lg:hidden">
+        <ul class="wrap gutter grid grid-cols-2 gap-x-4 py-2 text-sm font-medium uppercase tracking-wide text-white/90">
+          <li><a class="flex min-h-[44px] items-center text-coral font-bold" href="index.html">Beranda</a></li>
+          <li><a class="flex min-h-[44px] items-center" href="koridor.html">Koridor</a></li>
+          <li><a class="flex min-h-[44px] items-center" href="jadwal.html">Jadwal</a></li>
+          <li><a class="flex min-h-[44px] items-center" href="hub.html">Hub</a></li>
+          <li><a class="flex min-h-[44px] items-center" href="peta.html">Peta</a></li>
+          <li><a class="flex min-h-[44px] items-center" href="kontak.html">Kontak</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Hero Body -->
+    <div class="relative flex-1 flex flex-col justify-between md:flex-row md:items-center w-full overflow-hidden">
+      <!-- 1. Text Elements Container -->
+      <div class="wrap gutter relative z-10 flex flex-col justify-start md:justify-center w-full pt-4 pb-2 sm:pt-6 md:py-16 md:min-h-[calc(100vh-64px)]">
+        <div class="max-w-[540px] w-full">
+          <div class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs ring-1 ring-white/20" role="status" aria-live="polite">
+            <span id="pill-dot" class="sdot st-OFFLINE"></span>
+            <span id="pill-text">Memuat status bus…</span>
+          </div>
+          <h1 class="mt-4 sm:mt-5 text-3xl font-bold leading-[1.15] sm:text-4xl md:text-5xl lg:text-[3.5rem]">Rute, halte, dan posisi<br>Bus Trans Palu</h1>
+          <p class="mt-3 sm:mt-4 md:mt-5 max-w-md text-sm sm:text-base leading-relaxed text-white/90">Lihat jalur lima koridor, halte terdekat, jadwal, dan perkiraan kedatangan bus. Tanpa daftar, tanpa login.</p>
+          <div class="mt-5 sm:mt-6 md:mt-8 flex flex-wrap gap-3">
+            <a href="koridor.html" class="inline-flex min-h-[46px] sm:min-h-[48px] items-center bg-sky px-6 sm:px-8 text-[13px] sm:text-[14px] font-semibold uppercase tracking-wider text-white hover:brightness-110 focus-ring shadow-lg transition-all">Lihat Rute</a>
+            <a href="peta.html" class="inline-flex min-h-[46px] sm:min-h-[48px] items-center border border-white/70 px-6 sm:px-8 text-[13px] sm:text-[14px] font-semibold uppercase tracking-wider text-white hover:bg-white hover:text-navy focus-ring shadow-lg transition-all">Buka Peta</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Hero Image: Isolated Bus -->
+      <div class="relative w-full z-0 flex items-end justify-start mt-auto pb-4 sm:pb-6 md:pb-0 md:mt-0 md:absolute md:inset-y-0 md:left-auto md:right-0 md:w-[60%] lg:w-[58%] xl:w-[55%] md:h-full md:flex md:items-center md:justify-end md:pr-2 lg:pr-4 pointer-events-none overflow-visible md:overflow-hidden">
+        <div class="relative w-[130%] min-w-[380px] max-w-[580px] sm:w-[120%] sm:max-w-[640px] md:w-full md:max-w-[640px] lg:max-w-[760px] flex flex-col items-center justify-center -translate-x-7 sm:-translate-x-5 md:translate-x-8 lg:translate-x-12 -translate-y-10 sm:-translate-y-12 md:translate-y-0">
+          <div id="hero-bus-wrapper" class="hero-bus-wrapper relative w-full flex flex-col items-center justify-center animate-bus-arrive">
+            <div class="hero-bus-shadow absolute -bottom-2 sm:-bottom-3 md:-bottom-5 left-1/2 -translate-x-1/2 w-[85%] h-6 sm:h-10 md:h-14 bg-black/50 rounded-full blur-xl pointer-events-none"></div>
+            <img
+              id="hero-bus-img"
+              src="../public/images/bus-trans-palu-nobg.png"
+              alt="Bus Trans Palu tampak depan melaju tanpa latar belakang"
+              class="hero-bus-img relative z-10 block w-full h-auto max-h-[48vh] sm:max-h-[54vh] md:max-h-[82vh] object-contain opacity-100 transition-opacity duration-300 drop-shadow-[0_20px_35px_rgba(0,0,0,0.45)]"
+              width="1200"
+              height="800"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Corridor Grid Section -->
+    <section id="armada" class="relative min-h-screen flex flex-col justify-between overflow-hidden bg-navy text-white py-12 md:py-16" style="background-image: linear-gradient(180deg, #162646 0%, #1b2d52 50%, #121e3a 100%);" aria-labelledby="judul-armada">
+      <div class="wrap gutter flex-1 flex flex-col justify-center my-auto relative z-10 w-full pb-20 md:pb-28">
+        <h2 id="judul-armada" class="display text-center text-3xl font-bold uppercase tracking-wide sm:text-4xl lg:text-5xl">Pilih <span class="text-coral">koridor</span> sesuai tujuan Anda</h2>
+        <p class="mt-2 text-center text-sm sm:text-base text-white/70">Ketuk koridor untuk menampilkannya di peta.</p>
+        <div id="grid" class="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4"></div>
+        <div class="mt-8 flex justify-center">
+          <a href="koridor.html" class="inline-flex items-center gap-2 rounded-xl bg-coral px-7 py-3 text-sm font-bold text-white shadow-lg hover:brightness-110 focus-ring transition-all">
+            <span>Buka Halaman Rincian 5 Koridor</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Cloud Divider SVG -->
+      <svg class="absolute inset-x-0 bottom-0 h-20 w-full sm:h-28" viewBox="0 0 1440 120" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <g fill="#fff">
+          <circle cx="30" cy="92" r="46"/><circle cx="120" cy="80" r="56"/><circle cx="225" cy="94" r="48"/><circle cx="320" cy="76" r="60"/>
+          <circle cx="430" cy="92" r="50"/><circle cx="525" cy="80" r="58"/><circle cx="630" cy="96" r="46"/><circle cx="725" cy="78" r="60"/>
+          <circle cx="830" cy="94" r="50"/><circle cx="930" cy="80" r="58"/><circle cx="1035" cy="96" r="46"/><circle cx="1130" cy="78" r="60"/>
+          <circle cx="1235" cy="92" r="50"/><circle cx="1330" cy="80" r="56"/><circle cx="1420" cy="94" r="48"/>
+          <rect y="96" width="1440" height="30"/>
+        </g>
+      </svg>
+    </section>
+
+    <!-- Live Tracking & Specification Banner (Slide Carousel) -->
+    <section id="pelacakan" class="gutter min-h-screen flex flex-col justify-center items-center py-6 sm:py-10" aria-labelledby="judul-banner">
+      <div class="relative w-full max-w-[1300px] min-h-[580px] md:min-h-[620px] rounded-[2.5rem] text-white shadow-2xl overflow-hidden flex flex-col justify-between p-6 sm:p-10 md:p-12 transition-all duration-300" style="background: linear-gradient(180deg, #4f9fe0 0%, #68b1e8 55%, #a2d2f7 100%);">
+        
+        <!-- Top Switcher -->
+        <div class="relative z-20 flex items-center justify-between gap-3 flex-wrap">
+          <div class="flex items-center gap-2 rounded-full bg-navy/30 backdrop-blur-md p-1.5 ring-1 ring-white/20">
+            <button id="btn-slide-0" type="button" class="rounded-full px-5 py-2 text-xs sm:text-sm font-bold bg-navy text-white shadow-md transition-all">Pelacakan Langsung</button>
+            <button id="btn-slide-1" type="button" class="rounded-full px-5 py-2 text-xs sm:text-sm font-bold text-white/85 hover:text-white hover:bg-white/10 transition-all">Spesifikasi Bus</button>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btn-slide-prev" type="button" class="grid h-10 w-10 place-items-center rounded-full bg-white/20 hover:bg-white/35 backdrop-blur text-white shadow focus-ring transition-transform hover:scale-105" aria-label="Slide sebelumnya">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button id="btn-slide-next" type="button" class="grid h-10 w-10 place-items-center rounded-full bg-white/20 hover:bg-white/35 backdrop-blur text-white shadow focus-ring transition-transform hover:scale-105" aria-label="Slide berikutnya">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Slides Container -->
+        <div class="relative z-10 flex-1 flex items-center my-auto py-4">
+          <!-- Slide 0: Pelacakan -->
+          <div id="slide-0" class="w-full grid items-center gap-8 md:grid-cols-2 animate-fadeIn">
+            <div class="min-w-0">
+              <p class="text-xs sm:text-sm font-bold uppercase tracking-[.2em] text-white/90">Pelacakan langsung</p>
+              <h2 id="judul-banner" class="display mt-3 text-3xl font-extrabold uppercase leading-[1.05] sm:text-4xl md:text-5xl lg:text-6xl text-white drop-shadow-sm">Lihat posisi bus,<br>perkiraan tiba di halte</h2>
+              <p class="mt-4 max-w-lg text-sm sm:text-base leading-relaxed text-white/95">Posisi bus diperbarui tiap 5–10 detik. Estimasi waktu tiba berlabel <em>Perkiraan</em> dan dihitung dari kecepatan bus terkini.</p>
+              <p id="banner-live" class="mt-3 text-sm font-bold text-white" aria-live="polite">Saat ini 0 bus aktif di peta.</p>
+              <div class="mt-6 flex flex-wrap gap-4">
+                <a id="btn-live" href="peta.html" class="inline-flex min-h-[46px] items-center rounded-xl bg-coral px-7 text-sm font-bold text-white shadow-lg hover:brightness-110 focus-ring transition-all">Lihat Bus Aktif</a>
+                <a href="koridor.html" class="inline-flex min-h-[46px] items-center rounded-xl bg-white px-7 text-sm font-bold text-navy shadow-lg hover:bg-mist focus-ring transition-all">Lihat Rute</a>
+              </div>
+            </div>
+            <div class="mx-auto w-full max-w-[620px] min-w-0 flex items-center justify-center py-2 lg:py-4">
+              <img src="../public/images/bus-info.png" alt="Bus Trans Palu tampak samping dengan livery corak daun emas khas Palu" class="w-full h-auto max-h-[420px] object-contain drop-shadow-[0_25px_45px_rgba(18,30,58,.45)] scale-105 md:scale-110 lg:scale-115 hover:scale-120 transition-transform duration-300">
+            </div>
+          </div>
+
+          <!-- Slide 1: Spesifikasi Bus -->
+          <div id="slide-1" hidden class="w-full animate-fadeIn">
+            <div class="bg-white/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 md:p-10 shadow-xl text-navy">
+              <div class="flex justify-center">
+                <span class="inline-block rounded-full bg-navy px-8 py-2.5 text-sm sm:text-base md:text-lg font-bold text-white shadow-md">Spesifikasi Bus Kota Palu</span>
+              </div>
+              <p class="mt-6 text-sm sm:text-base md:text-[17px] leading-relaxed text-ink/90 text-center max-w-4xl mx-auto font-normal">
+                <strong class="font-bold text-navy">Bus Trans Palu</strong>, yang dioperasikan oleh <strong class="font-bold text-navy">PT Bagong Transport</strong> melalui sistem <strong class="font-bold text-navy">Buy The Service (BTS)</strong>, memiliki <strong class="font-bold text-navy">kapasitas 35</strong> penumpang dengan <strong class="font-bold text-navy">21 kursi duduk</strong> dan body mobil berwarna putih dengan aksen livery corak daun kuning keemasan di samping. Bus ini dilengkapi layar videotron di bagian belakang dan melayani <strong class="font-bold text-navy">empat koridor</strong> dengan <strong class="font-bold text-navy">50 titik pemberhentian</strong>. Pemerintah Kota Palu hanya menyiapkan halte dan bus stop, serta membayar per kilometer untuk setiap bus yang beroperasi. Selama masa percobaan dari <strong class="font-bold text-navy">Oktober hingga Desember 2024</strong>, penumpang dapat menikmati layanan ini <strong class="font-bold text-navy">tanpa biaya</strong>.
+              </p>
+              <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto w-full">
+                <div class="flex flex-col items-center">
+                  <span class="rounded-full bg-navy px-4 py-1 text-[11px] font-bold text-white uppercase tracking-wider mb-2 shadow-sm">KAPASITAS</span>
+                  <span class="rounded-full bg-navy px-5 py-2.5 text-xs sm:text-sm font-bold text-white uppercase tracking-wide shadow-md text-center w-full">35 DENGAN 21 KURSI</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <span class="rounded-full bg-navy px-4 py-1 text-[11px] font-bold text-white uppercase tracking-wider mb-2 shadow-sm">WARNA</span>
+                  <span class="rounded-full bg-navy px-5 py-2.5 text-xs sm:text-sm font-bold text-white uppercase tracking-wide shadow-md text-center w-full">PUTIH &amp; AKSEN EMAS</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <span class="rounded-full bg-navy px-4 py-1 text-[11px] font-bold text-white uppercase tracking-wider mb-2 shadow-sm">KORIDOR</span>
+                  <div class="rounded-full bg-navy px-3.5 py-2 flex items-center justify-center gap-1.5 shadow-md w-full">
+                    <span class="h-6 w-6 rounded-full bg-[#EF4444] text-white text-[10px] font-bold grid place-items-center shadow-sm" title="Koridor 01: Pantoloan – Pusat Kota">01</span>
+                    <span class="h-6 w-6 rounded-full bg-[#3B82F6] text-white text-[10px] font-bold grid place-items-center shadow-sm" title="Koridor 02: Balai Kota – Pasar Manonda">02</span>
+                    <span class="h-6 w-6 rounded-full bg-[#10B981] text-white text-[10px] font-bold grid place-items-center shadow-sm" title="Koridor 03M: Pusat Kota – Bandara MSA">03M</span>
+                    <span class="h-6 w-6 rounded-full bg-[#F59E0B] text-white text-[10px] font-bold grid place-items-center shadow-sm" title="Koridor 03Y: Pusat Kota – Bandara MSA">03Y</span>
+                    <span class="h-6 w-6 rounded-full bg-[#8B5CF6] text-white text-[10px] font-bold grid place-items-center shadow-sm" title="Koridor 04: Bandara MSA – Terminal Tipo">04</span>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center">
+                  <span class="rounded-full bg-navy px-4 py-1 text-[11px] font-bold text-white uppercase tracking-wider mb-2 shadow-sm">BUS STOP</span>
+                  <span class="rounded-full bg-navy px-5 py-2.5 text-xs sm:text-sm font-bold text-white uppercase tracking-wide shadow-md text-center w-full">50 TITIK BUS STOP</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Dots Indicator -->
+        <div class="relative z-20 flex items-center justify-center gap-2 mt-4">
+          <button id="dot-slide-0" type="button" class="h-2.5 w-8 rounded-full bg-navy transition-all" aria-label="Slide 1: Pelacakan Langsung"></button>
+          <button id="dot-slide-1" type="button" class="h-2.5 w-2.5 rounded-full bg-navy/35 hover:bg-navy/60 transition-all" aria-label="Slide 2: Spesifikasi Bus"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Info Tabs (Jadwal, Halte, Bantuan) -->
+    <section id="layanan" class="gutter min-h-screen flex flex-col justify-center py-12 md:py-16" aria-labelledby="judul-layanan">
+      <div class="wrap w-full">
+        <h2 id="judul-layanan" class="display mb-4 text-3xl font-bold uppercase tracking-wide text-navy sm:text-4xl">Jadwal <span class="text-coral">&amp; Halte</span></h2>
+        <div class="overflow-x-auto">
+          <div role="tablist" aria-label="Kategori informasi" class="flex min-w-max border-b border-ink/10">
+            <button role="tab" id="tab-0" aria-selected="true" aria-controls="panel-tab" class="tab focus-ring px-6 text-sm font-bold">Jadwal</button>
+            <button role="tab" id="tab-1" aria-selected="false" aria-controls="panel-tab" class="tab focus-ring px-6 text-sm font-bold">Halte</button>
+            <button role="tab" id="tab-2" aria-selected="false" aria-controls="panel-tab" class="tab focus-ring px-6 text-sm font-bold">Bantuan</button>
+          </div>
+        </div>
+        <div id="panel-tab" role="tabpanel" tabindex="0" class="mt-6 flex flex-wrap justify-center gap-6"></div>
+        <p id="tab-note" class="mt-4 text-center text-xs text-ink/60"></p>
+        <div class="mt-6 flex justify-center">
+          <a href="jadwal.html" class="inline-flex items-center gap-2 rounded-xl bg-navy px-6 py-2.5 text-xs sm:text-sm font-bold text-white shadow hover:bg-navy/90 focus-ring transition-all">
+            <span>Buka Halaman Jadwal &amp; Halte Lengkap</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hub Cards (Titik Transfer) -->
+    <section id="rute" class="min-h-screen flex flex-col justify-center py-12 md:py-16" style="background: var(--mist);" aria-labelledby="judul-rute">
+      <div class="wrap gutter w-full">
+        <h2 id="judul-rute" class="display text-center text-3xl font-bold uppercase tracking-wide text-navy sm:text-4xl"><span class="text-coral">Hub</span> dan titik transfer</h2>
+        <p class="mx-auto mt-3 max-w-xl text-center text-sm text-ink/70">Di hub ini beberapa koridor bertemu. Ganti koridor di sini untuk menjangkau tujuan lain.</p>
+        <div class="mt-10 grid gap-6 md:grid-cols-3 items-stretch">
+          <!-- Hub 1: Balai Kota -->
+          <article class="flex flex-col justify-between rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/90 text-left">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs sm:text-[13px] font-semibold text-[#0284c7] tracking-wide">HLT-003 · Titik Transfer</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mt-1 mb-4">Balai Kota</h3>
+
+              <div class="w-full bg-[#f1f5f9] rounded px-3 py-1.5 text-xs font-semibold text-slate-600 mb-1">Kedatangan Terdekat</div>
+              <div class="flex items-center justify-between py-2.5 px-3 border-b border-slate-100 text-sm">
+                <span class="font-medium text-slate-800">Bus Berikutnya</span>
+                <span class="bg-[#dc2626] text-white px-2.5 py-0.5 rounded text-xs font-bold tabular-nums shadow-sm" data-hubeta="HLT-003">15 mnt</span>
+              </div>
+
+              <div class="w-full bg-[#f1f5f9] rounded px-3 py-1.5 text-xs font-semibold text-slate-600 mt-4 mb-1">Koridor Terhubung</div>
+              <div class="divide-y divide-slate-100">
+                <div class="flex items-center justify-between py-2.5 px-3 text-sm">
+                  <span class="font-medium text-slate-800">Koridor 02</span>
+                  <span class="text-xs text-slate-500 font-medium text-right truncate max-w-[58%]">Pasar Manonda – Balai Kota</span>
+                </div>
+                <div class="flex items-center justify-between py-2.5 px-3 text-sm">
+                  <span class="font-medium text-slate-800">Koridor 03Y</span>
+                  <span class="text-xs text-slate-500 font-medium text-right truncate max-w-[58%]">Taman GOR – Bandara MSA</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-2">
+              <button type="button" class="group/btn inline-flex items-center gap-1.5 text-sm font-semibold text-[#0284c7] hover:text-[#0369a1] transition-colors cursor-pointer text-left focus-ring rounded" onclick="window.BikopaUI.openSheet('HLT-003')">
+                <span>Lihat detail halte</span>
+                <span class="transition-transform group-hover/btn:translate-x-1">&rarr;</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Hub 2: Taman GOR -->
+          <article class="flex flex-col justify-between rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/90 text-left">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs sm:text-[13px] font-semibold text-[#0284c7] tracking-wide">HLT-002 · Hub Terbesar</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mt-1 mb-4">Taman GOR</h3>
+
+              <div class="w-full bg-[#f1f5f9] rounded px-3 py-1.5 text-xs font-semibold text-slate-600 mb-1">Kedatangan Terdekat</div>
+              <div class="flex items-center justify-between py-2.5 px-3 border-b border-slate-100 text-sm">
+                <span class="font-medium text-slate-800">Bus Berikutnya</span>
+                <span class="bg-[#dc2626] text-white px-2.5 py-0.5 rounded text-xs font-bold tabular-nums shadow-sm" data-hubeta="HLT-002">14 mnt</span>
+              </div>
+
+              <div class="w-full bg-[#f1f5f9] rounded px-3 py-1.5 text-xs font-semibold text-slate-600 mt-4 mb-1">Koridor Terhubung</div>
+              <div class="divide-y divide-slate-100">
+                <div class="flex items-center justify-between py-2.5 px-3 text-sm">
+                  <span class="font-medium text-slate-800">Koridor 01</span>
+                  <span class="text-xs text-slate-500 font-medium text-right truncate max-w-[58%]">Pantoloan – Taman GOR</span>
+                </div>
+                <div class="flex items-center justify-between py-2.5 px-3 text-sm">
+                  <span class="font-medium text-slate-800">Koridor 02</span>
+                  <span class="text-xs text-slate-500 font-medium text-right truncate max-w-[58%]">Pasar Manonda – Balai Kota</span>
+                </div>
+                <div class="flex items-center justify-between py-2.5 px-3 text-sm">
+                  <span class="font-medium text-slate-800">Koridor 03M</span>
+                  <span class="text-xs text-slate-500 font-medium text-right truncate max-w-[58%]">Taman GOR – Bandara MSA</span>
+                </div>
+                <div class="flex items-center justify-between py-2.5 px-3 text-sm">
+                  <span class="font-medium text-slate-800">Koridor 03Y</span>
+                  <span class="text-xs text-slate-500 font-medium text-right truncate max-w-[58%]">Taman GOR – Bandara MSA</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-2">
+              <button type="button" class="group/btn inline-flex items-center gap-1.5 text-sm font-semibold text-[#0284c7] hover:text-[#0369a1] transition-colors cursor-pointer text-left focus-ring rounded" onclick="window.BikopaUI.openSheet('HLT-002')">
+                <span>Lihat detail halte</span>
+                <span class="transition-transform group-hover/btn:translate-x-1">&rarr;</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Hub 3: Bandara MSA -->
+          <article class="flex flex-col justify-between rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/90 text-left">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs sm:text-[13px] font-semibold text-[#0284c7] tracking-wide">HLT-005 · Titik Transfer</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mt-1 mb-4">Bandara Mutiara SIS Al-Jufri</h3>
+
+              <div class="w-full bg-[#f1f5f9] rounded px-3 py-1.5 text-xs font-semibold text-slate-600 mb-1">Kedatangan Terdekat</div>
+              <div class="flex items-center justify-between py-2.5 px-3 border-b border-slate-100 text-sm">
+                <span class="font-medium text-slate-800">Bus Berikutnya</span>
+                <span class="bg-[#dc2626] text-white px-2.5 py-0.5 rounded text-xs font-bold tabular-nums shadow-sm" data-hubeta="HLT-005">18 mnt</span>
+              </div>
+
+              <div class="w-full bg-[#f1f5f9] rounded px-3 py-1.5 text-xs font-semibold text-slate-600 mt-4 mb-1">Koridor Terhubung</div>
+              <div class="divide-y divide-slate-100">
+                <div class="flex items-center justify-between py-2.5 px-3 text-sm">
+                  <span class="font-medium text-slate-800">Koridor 03M</span>
+                  <span class="text-xs text-slate-500 font-medium text-right truncate max-w-[58%]">Taman GOR – Bandara MSA</span>
+                </div>
+                <div class="flex items-center justify-between py-2.5 px-3 text-sm">
+                  <span class="font-medium text-slate-800">Koridor 03Y</span>
+                  <span class="text-xs text-slate-500 font-medium text-right truncate max-w-[58%]">Taman GOR – Bandara MSA</span>
+                </div>
+                <div class="flex items-center justify-between py-2.5 px-3 text-sm">
+                  <span class="font-medium text-slate-800">Koridor 04</span>
+                  <span class="text-xs text-slate-500 font-medium text-right truncate max-w-[58%]">Bandara MSA – Terminal Tipo</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-2">
+              <button type="button" class="group/btn inline-flex items-center gap-1.5 text-sm font-semibold text-[#0284c7] hover:text-[#0369a1] transition-colors cursor-pointer text-left focus-ring rounded" onclick="window.BikopaUI.openSheet('HLT-005')">
+                <span>Lihat detail halte</span>
+                <span class="transition-transform group-hover/btn:translate-x-1">&rarr;</span>
+              </button>
+            </div>
+          </article>
+        </div>
+        <div class="mt-8 flex justify-center">
+          <a href="hub.html" class="inline-flex items-center gap-2 rounded-xl bg-coral px-6 py-2.5 text-xs sm:text-sm font-bold text-white shadow hover:brightness-110 focus-ring transition-all">
+            <span>Buka Halaman Hub &amp; Cari Titik Transfer</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+        <p class="mt-8 text-center text-xs text-ink/55">Hub lain: Pelabuhan Pantoloan, Pasar Inpres Manonda, Terminal Tipo (ketuk di peta).</p>
+      </div>
+    </section>
+
+    <!-- Interactive Map Section (Leaflet OSM Riil) -->
+    <section id="jangkauan" class="gutter min-h-screen flex flex-col justify-center py-12 md:py-16" aria-labelledby="judul-jangkauan">
+      <div class="wrap grid items-center gap-10 lg:grid-cols-[1.35fr_1fr] w-full">
+        <div id="mapcard" class="min-w-0 overflow-hidden rounded-3xl bg-white ring-1 ring-ink/10 shadow-lg">
+          <div class="flex flex-wrap items-center gap-2 border-b border-ink/10 bg-mist p-3" id="filters" role="group" aria-label="Filter koridor"></div>
+          <div class="relative">
+            <div id="map" class="block h-[440px] w-full touch-manipulation z-0"></div>
+            <button id="map-full" type="button" class="absolute right-3 top-3 z-10 inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-white/95 backdrop-blur px-4 text-xs font-bold text-navy shadow-md ring-1 ring-ink/10 focus-ring hover:bg-white">Layar penuh</button>
+          </div>
+          <div id="panel" class="border-t border-ink/10 bg-mist p-4 text-sm" aria-live="polite"></div>
+        </div>
+
+        <div class="min-w-0">
+          <div class="h-1 w-14 rounded bg-coral"></div>
+          <h2 id="judul-jangkauan" class="display mt-4 text-4xl font-extrabold uppercase leading-none text-navy sm:text-5xl">Peta jalur dan halte</h2>
+          <p class="mt-4 max-w-md text-base leading-relaxed text-ink/75">Seluruh koridor dan 53 titik halte di Kota Palu dalam satu peta, tanpa akun dan tanpa formulir.</p>
+          <ul class="mt-5 space-y-2 text-sm text-ink/80">
+            <li class="flex gap-2"><span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-coral"></span>Filter koridor nyala atau mati</li>
+            <li class="flex gap-2"><span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-coral"></span>Halte terdekat dari lokasi Anda (klik titik di peta untuk mencoba)</li>
+            <li class="flex gap-2"><span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-coral"></span>Info rute dan halte tetap terbuka saat offline</li>
+          </ul>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button id="btn-full" type="button" class="inline-flex min-h-[44px] items-center rounded-lg border-2 border-coral px-6 text-sm font-bold text-coral hover:bg-coral hover:text-white focus-ring">Buka Peta Penuh</button>
+            <a href="peta.html" class="inline-flex min-h-[44px] items-center rounded-lg bg-navy px-6 text-sm font-bold text-white hover:bg-navy/90 focus-ring transition-colors">Buka Halaman Peta &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- SiteFooter -->
+  <footer id="kontak" class="min-h-screen flex flex-col justify-center bg-deep text-white py-12 md:py-16">
+    <div class="wrap gutter w-full">
+      <div class="grid gap-8 py-10 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1.2fr]">
+        <div>
+          <p class="display text-2xl font-bold tracking-wide">BIKOPA</p>
+          <p class="mt-2 max-w-xs text-sm leading-relaxed text-white/65">Sistem informasi rute, halte, dan pelacakan Bus Trans Palu.</p>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[.16em] text-white/50">Halaman</p>
+          <ul class="mt-3 space-y-2 text-sm text-white/80">
+            <li><a class="text-coral font-bold" href="index.html">Beranda</a></li>
+            <li><a class="hover:text-white" href="koridor.html">Koridor</a></li>
+            <li><a class="hover:text-white" href="jadwal.html">Jadwal &amp; Halte</a></li>
+            <li><a class="hover:text-white" href="hub.html">Hub Transfer</a></li>
+            <li><a class="hover:text-white" href="peta.html">Peta Interaktif</a></li>
+            <li><a class="hover:text-white" href="kontak.html">Kontak Dishub</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[.16em] text-white/50">Dinas Perhubungan Kota Palu</p>
+          <p class="mt-3 text-sm leading-relaxed text-white/80">Jl. Balai Kota Timur No. 1, Tanamodindi, Kec. Mantikulore, Kota Palu 94111</p>
+          <p class="mt-1 select-all text-sm text-white/80">Telp (0451) 421666</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 py-5">
+        <p class="text-xs text-white/50">Kelompok 7, Teknik Informatika, Universitas Tadulako. Pratinjau data resmi Dishub Palu.</p>
+        <div class="flex items-center gap-3">
+          <a href="kontak.html" class="inline-flex min-h-[44px] items-center rounded-full bg-sun px-5 text-xs font-bold text-ink hover:brightness-95 focus-ring">Hubungi Dishub</a>
+          <span class="grid h-11 w-11 place-items-center rounded-full bg-white text-navy" aria-hidden="true">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg>
+          </span>
+          <span class="grid h-11 w-11 place-items-center rounded-full bg-white text-navy" aria-hidden="true">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- StopSheet Modal -->
+  <div id="sheet-bg" hidden class="fixed inset-0 z-[65]" style="background: rgba(18,30,58,.45);"></div>
+  <div id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" aria-hidden="true">
+    <div class="mx-auto max-w-[640px] rounded-t-3xl bg-white shadow-xl" style="padding: 12px max(20px, env(safe-area-inset-right, 0px)) max(20px, env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));">
+      <div class="mx-auto mb-3 h-1.5 w-12 rounded-full bg-ink/15"></div>
+      <div class="flex items-start justify-between gap-3">
+        <div class="min-w-0">
+          <p id="sheet-kicker" class="text-[11px] font-bold uppercase tracking-wider text-ink/50"></p>
+          <h3 id="sheet-title" class="display text-3xl font-bold text-navy"></h3>
+        </div>
+        <button id="sheet-x" type="button" class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mist text-navy focus-ring" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div id="sheet-body" class="mt-4 space-y-2"></div>
+    </div>
+  </div>
+
+  <!-- Location Consent Modal (US-02) -->
+  <div id="consent" hidden class="fixed inset-0 z-[80] grid place-items-center p-4" style="background: rgba(18,30,58,.55);">
+    <div role="dialog" aria-modal="true" aria-labelledby="consent-title" class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
+      <h3 id="consent-title" class="display text-2xl font-bold text-navy">Gunakan lokasi Anda?</h3>
+      <p class="mt-2 text-sm leading-relaxed text-ink/75">Lokasi dipakai hanya di perangkat Anda untuk mencari halte terdekat. Lokasi tidak dikirim dan tidak disimpan.</p>
+      <div class="mt-5 flex flex-wrap gap-3">
+        <button id="consent-ok" type="button" class="min-h-[44px] rounded-lg bg-coral px-5 text-sm font-bold text-white focus-ring">Izinkan</button>
+        <button id="consent-no" type="button" class="min-h-[44px] rounded-lg border border-ink/20 px-5 text-sm font-bold text-navy focus-ring">Tidak sekarang</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Modular Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/map.js"></script>
+  <script src="../js/ui.js"></script>
+</body>
+</html>

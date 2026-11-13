@@ -1,0 +1,21 @@
+{
+  "name": "BIKOPA Trans Palu",
+  "short_name": "BIKOPA",
+  "description": "Sistem Informasi Rute, Halte, dan Pelacakan Bus Trans Palu",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1b2d52",
+  "theme_color": "#1b2d52",
+  "icons": [
+    {
+      "src": "/IMAGE/LOGO BIKOPA.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/IMAGE/LOGO BIKOPA.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

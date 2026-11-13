@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontak & Informasi - BIKOPA Trans Palu</title>
+  <meta name="description" content="Informasi kontak Dinas Perhubungan Kota Palu, operator bus PT Bagong Transport, dan layanan aspirasi BIKOPA.">
+  <meta name="claude:viewport-fit-sides" content="cover">
+
+  <!-- Favicon / Logo Title Website -->
+  <link rel="icon" type="image/png" href="../IMAGE/LOGO BIKOPA.png">
+  <link rel="shortcut icon" href="../IMAGE/LOGO BIKOPA.png">
+  <link rel="apple-touch-icon" href="../IMAGE/LOGO BIKOPA.png">
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: 'var(--navy)',
+            deep: 'var(--deep)',
+            coral: 'var(--coral)',
+            sky: 'var(--sky)',
+            sun: 'var(--sun)',
+            mist: 'var(--mist)',
+            ink: 'var(--ink)'
+          },
+          fontFamily: {
+            display: ['"Barlow Condensed"', 'Arial Narrow', 'sans-serif'],
+            body: ['"DM Sans"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Modular CSS -->
+  <link rel="stylesheet" href="../css/bikopa.css">
+</head>
+<body class="bg-white text-ink font-body">
+
+  <!-- HEADER / NAVIGATION -->
+  <header class="sticky top-0 z-40 border-b border-white/20 bg-navy/95 backdrop-blur-md text-white">
+    <nav class="wrap gutter flex items-center justify-between gap-4 py-3" aria-label="Navigasi utama">
+      <a href="index.html" class="flex items-center gap-3 rounded focus-ring">
+        <span class="grid h-10 w-10 place-items-center rounded-lg bg-white overflow-hidden p-1 shadow">
+          <img src="../IMAGE/LOGO BIKOPA.png" alt="Logo BIKOPA" class="h-full w-full object-contain">
+        </span>
+        <span class="text-base font-bold tracking-wider text-white">BIKOPA</span>
+      </a>
+      <ul class="hidden items-center gap-7 text-[13px] font-medium uppercase tracking-wide text-white/85 lg:flex">
+        <li><a class="rounded hover:text-white focus-ring py-1" href="index.html">Beranda</a></li>
+        <li><a class="rounded hover:text-white focus-ring py-1" href="koridor.html">Koridor</a></li>
+        <li><a class="rounded hover:text-white focus-ring py-1" href="jadwal.html">Jadwal</a></li>
+        <li><a class="rounded hover:text-white focus-ring py-1" href="hub.html">Hub</a></li>
+        <li><a class="rounded hover:text-white focus-ring py-1" href="peta.html">Peta</a></li>
+        <li><a class="rounded text-coral font-bold border-b-2 border-coral pb-1 focus-ring" href="kontak.html">Kontak</a></li>
+      </ul>
+      <div class="flex items-center gap-2">
+        <a href="peta.html" class="inline-flex min-h-[44px] items-center border border-white/70 px-5 text-[13px] font-medium uppercase tracking-wide hover:bg-white hover:text-navy focus-ring transition-colors">Buka Peta</a>
+        <button id="menu-btn" type="button" class="grid h-11 w-11 place-items-center border border-white/40 focus-ring lg:hidden" aria-label="Buka menu" aria-expanded="false" aria-controls="menu">
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+    <div id="menu" hidden class="border-t border-white/15 lg:hidden">
+      <ul class="wrap gutter grid grid-cols-2 gap-x-4 py-2 text-sm font-medium uppercase tracking-wide text-white/90">
+        <li><a class="flex min-h-[44px] items-center" href="index.html">Beranda</a></li>
+        <li><a class="flex min-h-[44px] items-center" href="koridor.html">Koridor</a></li>
+        <li><a class="flex min-h-[44px] items-center" href="jadwal.html">Jadwal</a></li>
+        <li><a class="flex min-h-[44px] items-center" href="hub.html">Hub</a></li>
+        <li><a class="flex min-h-[44px] items-center" href="peta.html">Peta</a></li>
+        <li><a class="flex min-h-[44px] items-center text-coral font-bold" href="kontak.html">Kontak</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page Header Banner -->
+    <section class="bg-[#162646] text-white py-12 md:py-16 border-b border-white/10" style="background-image: linear-gradient(180deg, #162646 0%, #1b2d52 50%, #121e3a 100%);">
+      <div class="wrap gutter">
+        <div class="max-w-3xl">
+          <span class="inline-flex items-center gap-2 rounded-full bg-sun/20 px-3.5 py-1 text-xs font-bold text-sun border border-sun/30 uppercase tracking-wider mb-3">
+            Pusat Bantuan &amp; Pengaduan
+          </span>
+          <h1 class="display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-wide text-white">
+            Kontak &amp; Informasi <span class="text-coral">Layanan</span>
+          </h1>
+          <p class="mt-4 text-base sm:text-lg text-white/80 leading-relaxed">
+            Punya pertanyaan mengenai rute, tarif, barang tertinggal di bus, atau masukan terkait halte? Hubungi dinas perhubungan dan operator resmi Bus Trans Palu melalui kanal berikut.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <section class="py-12 md:py-16 bg-[#f8fafc]">
+      <div class="wrap gutter">
+        <div class="grid gap-8 lg:grid-cols-3">
+          <!-- Card 1: Dinas Perhubungan Kota Palu -->
+          <article class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-200/90 flex flex-col justify-between">
+            <div>
+              <div class="h-12 w-12 rounded-xl bg-navy/10 text-navy grid place-items-center mb-5">
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <span class="text-xs font-bold text-coral uppercase tracking-wider">Regulator Layanan</span>
+              <h2 class="display text-2xl font-bold text-navy mt-1">Dinas Perhubungan Kota Palu</h2>
+              <p class="mt-3 text-sm text-ink/75 leading-relaxed">
+                Pengelola kebijakan transportasi massal, penentuan rute koridor, serta penyedia prasarana halte dan bus stop di Kota Palu.
+              </p>
+
+              <div class="mt-6 space-y-3 text-xs sm:text-sm text-ink/80 border-t border-slate-100 pt-4">
+                <div class="flex items-start gap-2.5">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4 text-coral shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                  <span>Jl. Balai Kota Timur No. 1, Tanamodindi, Kec. Mantikulore, Kota Palu, Sulawesi Tengah 94111</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4 text-coral shrink-0" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <span class="font-bold text-navy select-all">(0451) 421666</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4 text-coral shrink-0" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>Senin – Jumat: 08:00 – 16:00 WITA</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-100">
+              <a href="tel:0451421666" class="inline-flex min-h-[42px] w-full items-center justify-center rounded-xl bg-navy px-4 text-xs font-bold text-white hover:bg-navy/90 focus-ring shadow-sm transition-all">
+                Hubungi Telepon Dishub
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 2: Operator PT Bagong Transport -->
+          <article class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-200/90 flex flex-col justify-between">
+            <div>
+              <div class="h-12 w-12 rounded-xl bg-sun/15 text-navy grid place-items-center mb-5">
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              </div>
+              <span class="text-xs font-bold text-[#F59E0B] uppercase tracking-wider">Operator Armada</span>
+              <h2 class="display text-2xl font-bold text-navy mt-1">PT Bagong Transport</h2>
+              <p class="mt-3 text-sm text-ink/75 leading-relaxed">
+                Pemenang kontrak penyedia jasa operasional sistem Buy The Service (BTS) Bus Trans Palu. Menangani pengemudi, armada, serta operasional harian.
+              </p>
+
+              <div class="mt-6 space-y-3 text-xs sm:text-sm text-ink/80 border-t border-slate-100 pt-4">
+                <div class="flex items-start gap-2.5">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4 text-coral shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  <span>Pool Armada &amp; Manajemen Operasional Buy The Service Palu</span>
+                </div>
+                <div class="flex items-start gap-2.5">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4 text-coral shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+                  <span>Layanan barang tertinggal &amp; masukan pelayanan pengemudi</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4 text-coral shrink-0" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>Operasional Bus: 06:00 – 21:00 WITA</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-100">
+              <a href="jadwal.html" class="inline-flex min-h-[42px] w-full items-center justify-center rounded-xl bg-mist border border-ink/10 px-4 text-xs font-bold text-navy hover:bg-slate-200 focus-ring transition-all">
+                Lihat Jadwal &amp; Fasilitas Bus &rarr;
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 3: Tim Pengembang BIKOPA -->
+          <article class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-200/90 flex flex-col justify-between">
+            <div>
+              <div class="h-12 w-12 rounded-xl bg-coral/15 text-coral grid place-items-center mb-5">
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+              </div>
+              <span class="text-xs font-bold text-coral uppercase tracking-wider">Inisiatif Digitalisasi</span>
+              <h2 class="display text-2xl font-bold text-navy mt-1">Tim BIKOPA - Universitas Tadulako</h2>
+              <p class="mt-3 text-sm text-ink/75 leading-relaxed">
+                Dikembangkan oleh Kelompok 7, Program Studi S1 Teknik Informatika, Fakultas Teknik, Universitas Tadulako sebagai solusi informasi rute terbuka bagi warga Kota Palu.
+              </p>
+
+              <div class="mt-6 space-y-3 text-xs sm:text-sm text-ink/80 border-t border-slate-100 pt-4">
+                <div class="flex items-start gap-2.5">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4 text-coral shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                  <span>Teknik Informatika, Fakultas Teknik, Untad Palu</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4 text-coral shrink-0" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                  <span>Aplikasi Web / PWA Ramah Aksesibilitas</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4 text-coral shrink-0" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                  <span>Real-time GPS Simulator &amp; OpenStreetMap</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-100">
+              <a href="peta.html" class="inline-flex min-h-[42px] w-full items-center justify-center rounded-xl bg-coral px-4 text-xs font-bold text-white hover:brightness-110 focus-ring shadow-sm transition-all">
+                Coba Peta Pelacakan &rarr;
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mt-16 max-w-4xl mx-auto">
+          <div class="text-center mb-8">
+            <h2 class="display text-3xl font-extrabold uppercase text-navy">Pertanyaan yang Sering Diajukan (FAQ)</h2>
+            <p class="text-sm text-ink/70 mt-1">Jawaban cepat seputar operasional Trans Palu.</p>
+          </div>
+
+          <div class="space-y-4">
+            <details class="group bg-white rounded-2xl p-5 ring-1 ring-slate-200/90 open:ring-coral/40">
+              <summary class="flex items-center justify-between cursor-pointer font-bold text-navy text-base">
+                <span>Berapa biaya / tarif naik Bus Trans Palu?</span>
+                <span class="transition-transform group-open:rotate-180 text-coral">&darr;</span>
+              </summary>
+              <p class="mt-3 text-sm text-ink/75 leading-relaxed border-t border-slate-100 pt-3">
+                Selama masa uji coba dan sosialisasi sistem Buy The Service (BTS) dari Pemerintah Kota Palu, seluruh penumpang dapat menikmati layanan Bus Trans Palu secara <strong>gratis (Rp 0)</strong> tanpa dipungut biaya.
+              </p>
+            </details>
+
+            <details class="group bg-white rounded-2xl p-5 ring-1 ring-slate-200/90 open:ring-coral/40">
+              <summary class="flex items-center justify-between cursor-pointer font-bold text-navy text-base">
+                <span>Kapan jam operasional bus dimulai dan berakhir?</span>
+                <span class="transition-transform group-open:rotate-180 text-coral">&darr;</span>
+              </summary>
+              <p class="mt-3 text-sm text-ink/75 leading-relaxed border-t border-slate-100 pt-3">
+                Armada Bus Trans Palu beroperasi setiap hari (Senin sampai Minggu termasuk hari libur nasional) mulai pukul <strong>06:00 hingga 21:00 WITA</strong> dengan perkiraan selang waktu kedatangan bus (headway) setiap 15 menit.
+              </p>
+            </details>
+
+            <details class="group bg-white rounded-2xl p-5 ring-1 ring-slate-200/90 open:ring-coral/40">
+              <summary class="flex items-center justify-between cursor-pointer font-bold text-navy text-base">
+                <span>Apakah bus boleh berhenti di sembarang tempat di jalan?</span>
+                <span class="transition-transform group-open:rotate-180 text-coral">&darr;</span>
+              </summary>
+              <p class="mt-3 text-sm text-ink/75 leading-relaxed border-t border-slate-100 pt-3">
+                Tidak. Demi keselamatan lalu lintas dan keteraturan jadwal, bus hanya dapat menaikkan dan menurunkan penumpang di <strong>53 titik halte resmi dan bus stop</strong> yang telah ditentukan oleh Dishub Kota Palu.
+              </p>
+            </details>
+
+            <details class="group bg-white rounded-2xl p-5 ring-1 ring-slate-200/90 open:ring-coral/40">
+              <summary class="flex items-center justify-between cursor-pointer font-bold text-navy text-base">
+                <span>Bagaimana jika barang saya tertinggal di dalam bus?</span>
+                <span class="transition-transform group-open:rotate-180 text-coral">&darr;</span>
+              </summary>
+              <p class="mt-3 text-sm text-ink/75 leading-relaxed border-t border-slate-100 pt-3">
+                Segera catat waktu, nomor lambung bus, atau koridor yang Anda tumpangi, lalu hubungi kantor Dinas Perhubungan Kota Palu di (0451) 421666 atau temui petugas pengawas di halte hub utama seperti Taman GOR dan Balai Kota.
+              </p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- SiteFooter -->
+  <footer id="kontak" class="bg-deep text-white py-12 md:py-16 border-t border-white/10">
+    <div class="wrap gutter w-full">
+      <div class="grid gap-8 py-10 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1.2fr]">
+        <div>
+          <p class="display text-2xl font-bold tracking-wide">BIKOPA</p>
+          <p class="mt-2 max-w-xs text-sm leading-relaxed text-white/65">Sistem informasi rute, halte, dan pelacakan Bus Trans Palu.</p>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[.16em] text-white/50">Halaman</p>
+          <ul class="mt-3 space-y-2 text-sm text-white/80">
+            <li><a class="hover:text-white" href="index.html">Beranda</a></li>
+            <li><a class="hover:text-white" href="koridor.html">Koridor</a></li>
+            <li><a class="hover:text-white" href="jadwal.html">Jadwal &amp; Halte</a></li>
+            <li><a class="hover:text-white" href="hub.html">Hub Transfer</a></li>
+            <li><a class="hover:text-white" href="peta.html">Peta Interaktif</a></li>
+            <li><a class="text-coral font-bold" href="kontak.html">Kontak Dishub</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[.16em] text-white/50">Dinas Perhubungan Kota Palu</p>
+          <p class="mt-3 text-sm leading-relaxed text-white/80">Jl. Balai Kota Timur No. 1, Tanamodindi, Kec. Mantikulore, Kota Palu 94111</p>
+          <p class="mt-1 select-all text-sm text-white/80">Telp (0451) 421666</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 py-5">
+        <p class="text-xs text-white/50">Kelompok 7, Teknik Informatika, Universitas Tadulako. Pratinjau data resmi Dishub Palu.</p>
+        <div class="flex items-center gap-3">
+          <a href="tel:0451421666" class="inline-flex min-h-[44px] items-center rounded-full bg-sun px-5 text-xs font-bold text-ink hover:brightness-95 focus-ring">Hubungi Dishub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/ui.js"></script>
+</body>
+</html>
