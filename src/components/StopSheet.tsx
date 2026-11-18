@@ -19,8 +19,8 @@ export default function StopSheet({ stopCode, onClose }: Props) {
     <>
       <div
         id="sheet-bg"
-        className="fixed inset-0 z-[99990] backdrop-blur-sm"
-        style={{ background: 'rgba(18,30,58,.5)' }}
+        className="fixed inset-0 z-[99990] transition-opacity duration-200"
+        style={{ background: 'rgba(18,30,58,0.45)', zIndex: 99990 }}
         onClick={onClose}
       />
       <div
@@ -29,9 +29,11 @@ export default function StopSheet({ stopCode, onClose }: Props) {
         aria-modal="true"
         aria-labelledby="sheet-title"
         className="open fixed left-0 right-0 bottom-0 z-[99995]"
+        style={{ zIndex: 99995, transform: 'none', WebkitFontSmoothing: 'antialiased' }}
+        onClick={(e) => e.stopPropagation()}
       >
         <div
-          className="mx-auto max-w-[640px] rounded-t-3xl bg-white shadow-xl"
+          className="mx-auto max-w-[640px] rounded-t-3xl bg-white shadow-2xl ring-1 ring-ink/10"
           style={{
             padding: '12px max(20px, env(safe-area-inset-right, 0px)) max(20px, env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px))',
           }}

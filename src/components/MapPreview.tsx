@@ -258,7 +258,7 @@ export default function MapPreview({
 
             {/* In fullscreen mode, floating Info Panel overlay at bottom left */}
             {isFullScreen && nearbyResults && (
-              <div className="absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-md z-[1000] max-h-[42vh] overflow-y-auto rounded-2xl bg-white/95 backdrop-blur shadow-2xl ring-1 ring-ink/10">
+              <div className="absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-md z-[1000] max-h-[42vh] overflow-y-auto rounded-2xl bg-white shadow-2xl ring-1 ring-ink/10">
                 <MapInfoPanel
                   nearbyResults={nearbyResults}
                   isGps={userPin?.isGps}

@@ -170,7 +170,7 @@ export default function PetaFullPage() {
       {/* Full Map Canvas Container */}
       <main className="flex-1 flex flex-col relative w-full h-[calc(100vh-64px)]">
         {/* Top Control Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ink/10 bg-white/95 backdrop-blur px-4 py-3 z-20 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ink/10 bg-white px-4 py-3 z-20 shadow-sm">
           <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter koridor">
             <button
               type="button"
@@ -253,7 +253,7 @@ export default function PetaFullPage() {
 
           {/* Floating Info Panel at Bottom */}
           {nearbyResults && (
-            <div className="absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-md z-[1000] max-h-[45vh] overflow-y-auto rounded-2xl bg-white/95 backdrop-blur shadow-2xl ring-1 ring-ink/10">
+            <div className="absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-md z-[1000] max-h-[45vh] overflow-y-auto rounded-2xl bg-white shadow-2xl ring-1 ring-ink/10">
               <MapInfoPanel
                 nearbyResults={nearbyResults}
                 isGps={userPin?.isGps}

@@ -65,7 +65,32 @@
       renderStops();
       renderBuses();
 
+      var isDragging = false;
+      var startContainerPoint = null;
+
+      map.on('mousedown touchstart', function (e) {
+        startContainerPoint = e.containerPoint;
+      });
+
+      map.on('dragstart', function () {
+        isDragging = true;
+      });
+
+      map.on('dragend', function () {
+        setTimeout(function () {
+          isDragging = false;
+        }, 150);
+      });
+
       map.on('click', function (e) {
+        if (isDragging) return;
+        if (startContainerPoint && e.containerPoint) {
+          var dx = e.containerPoint.x - startContainerPoint.x;
+          var dy = e.containerPoint.y - startContainerPoint.y;
+          if (Math.sqrt(dx * dx + dy * dy) > 8) {
+            return;
+          }
+        }
         if (window.BikopaUI && window.BikopaUI.showNearby) {
           window.BikopaUI.showNearby(e.latlng.lat, e.latlng.lng);
         }
@@ -310,15 +335,17 @@
     var bf = $('btn-full');
     if (bf) bf.textContent = on ? 'Tutup Peta Penuh' : 'Buka Peta Penuh';
     if (map) {
-      map.invalidateSize();
+      var currentCenter = map.getCenter();
+      var currentZoom = map.getZoom();
+      map.invalidateSize({ pan: false });
       setTimeout(function () {
         if (map) {
-          map.invalidateSize();
-          map.panTo([-0.885, 119.875], { animate: false });
+          map.invalidateSize({ pan: false });
+          map.setView(currentCenter, currentZoom, { animate: false });
         }
       }, 80);
       setTimeout(function () {
-        if (map) map.invalidateSize();
+        if (map) map.invalidateSize({ pan: false });
       }, 250);
     }
   }

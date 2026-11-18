@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { CORRIDORS, CORRIDOR_CODES } from '@/lib/data/corridors';
 
@@ -13,6 +13,9 @@ interface Props {
 export default function RouteModal({ isOpen, initialCorridorCode, onClose }: Props) {
   const [activeCode, setActiveCode] = useState<string>('01');
   const [zoomLevel, setZoomLevel] = useState<number>(1);
+  const imgContainerRef = useRef<HTMLDivElement | null>(null);
+  const isPanningRef = useRef(false);
+  const panStartRef = useRef({ x: 0, y: 0, scrollLeft: 0, scrollTop: 0 });
 
   // Sync initial corridor when opened
   useEffect(() => {
@@ -67,6 +70,34 @@ export default function RouteModal({ isOpen, initialCorridorCode, onClose }: Pro
 
   function handleResetZoom() {
     setZoomLevel(1);
+    if (imgContainerRef.current) {
+      imgContainerRef.current.scrollLeft = 0;
+      imgContainerRef.current.scrollTop = 0;
+    }
+  }
+
+  function handleMouseDown(e: React.MouseEvent) {
+    if (!imgContainerRef.current) return;
+    isPanningRef.current = true;
+    panStartRef.current = {
+      x: e.clientX,
+      y: e.clientY,
+      scrollLeft: imgContainerRef.current.scrollLeft,
+      scrollTop: imgContainerRef.current.scrollTop,
+    };
+  }
+
+  function handleMouseMove(e: React.MouseEvent) {
+    if (!isPanningRef.current || !imgContainerRef.current) return;
+    e.preventDefault();
+    const dx = e.clientX - panStartRef.current.x;
+    const dy = e.clientY - panStartRef.current.y;
+    imgContainerRef.current.scrollLeft = panStartRef.current.scrollLeft - dx;
+    imgContainerRef.current.scrollTop = panStartRef.current.scrollTop - dy;
+  }
+
+  function handleMouseUpOrLeave() {
+    isPanningRef.current = false;
   }
 
   return (
@@ -140,8 +171,15 @@ export default function RouteModal({ isOpen, initialCorridorCode, onClose }: Pro
           })}
         </div>
 
-        {/* Image Container with Zoom Controls */}
-        <div className="relative flex-1 min-h-[280px] sm:min-h-[380px] max-h-[55vh] overflow-auto bg-[#f8fafc] p-4 flex items-center justify-center">
+        {/* Image Container with Zoom & Drag Controls */}
+        <div
+          ref={imgContainerRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUpOrLeave}
+          onMouseLeave={handleMouseUpOrLeave}
+          className="relative flex-1 min-h-[280px] sm:min-h-[380px] max-h-[55vh] overflow-auto bg-[#f8fafc] p-4 flex items-center justify-center select-none cursor-grab active:cursor-grabbing"
+        >
           {/* Zoom floating controls */}
           <div className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-xl bg-white/95 backdrop-blur px-2 py-1 shadow-md ring-1 ring-ink/10 text-xs font-bold text-navy">
             <button

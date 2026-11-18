@@ -83,7 +83,32 @@ export default function LeafletMap({
           maxZoom: 18,
         }).addTo(map);
 
+        let isDragging = false;
+        let startContainerPoint: any = null;
+
+        map.on('mousedown touchstart', (e: any) => {
+          startContainerPoint = e.containerPoint;
+        });
+
+        map.on('dragstart', () => {
+          isDragging = true;
+        });
+
+        map.on('dragend', () => {
+          setTimeout(() => {
+            isDragging = false;
+          }, 150);
+        });
+
         map.on('click', (e: any) => {
+          if (isDragging) return;
+          if (startContainerPoint && e.containerPoint) {
+            const dx = e.containerPoint.x - startContainerPoint.x;
+            const dy = e.containerPoint.y - startContainerPoint.y;
+            if (Math.sqrt(dx * dx + dy * dy) > 8) {
+              return;
+            }
+          }
           onMapClick(e.latlng.lat, e.latlng.lng);
         });
 
@@ -99,7 +124,7 @@ export default function LeafletMap({
         // Pastikan ukuran peta terhitung tepat di semua resolusi layar
         setTimeout(() => {
           if (mapInstanceRef.current) {
-            mapInstanceRef.current.invalidateSize();
+            mapInstanceRef.current.invalidateSize({ pan: false });
           }
         }, 150);
       } catch (err) {
@@ -354,7 +379,7 @@ export default function LeafletMap({
 
     const observer = new ResizeObserver(() => {
       if (mapInstanceRef.current) {
-        mapInstanceRef.current.invalidateSize();
+        mapInstanceRef.current.invalidateSize({ pan: false });
       }
     });
 
@@ -365,22 +390,24 @@ export default function LeafletMap({
   }, []);
 
   // Tangani transisi Layar Penuh secara bertahap agar tidak ada bidang abu-abu (grey void)
+  // Mempertahankan titik tengah (center) yang sedang dilihat pengguna tanpa mereset ke posisi awal
   useEffect(() => {
     if (!mapInstanceRef.current) return;
 
     const map = mapInstanceRef.current;
-    const targetCenter: [number, number] = userPin ? [userPin.lat, userPin.lng] : [-0.88, 119.87];
+    const currentCenter = map.getCenter();
+    const currentZoom = map.getZoom();
 
-    map.invalidateSize();
+    map.invalidateSize({ pan: false });
     const t1 = setTimeout(() => {
       if (mapInstanceRef.current) {
-        mapInstanceRef.current.invalidateSize();
-        mapInstanceRef.current.panTo(targetCenter, { animate: false });
+        mapInstanceRef.current.invalidateSize({ pan: false });
+        mapInstanceRef.current.setView(currentCenter, currentZoom, { animate: false });
       }
     }, 60);
     const t2 = setTimeout(() => {
       if (mapInstanceRef.current) {
-        mapInstanceRef.current.invalidateSize();
+        mapInstanceRef.current.invalidateSize({ pan: false });
       }
     }, 200);
 
@@ -388,7 +415,7 @@ export default function LeafletMap({
       clearTimeout(t1);
       clearTimeout(t2);
     };
-  }, [isFullScreen, userPin]);
+  }, [isFullScreen]);
 
   // Otomatis arahkan dan pusatkan peta ke lokasi pengguna (flyTo)
   useEffect(() => {
