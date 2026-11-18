@@ -14,8 +14,8 @@ export default function LocationConsent({ isOpen, onConfirm, onCancel }: Props) 
   return (
     <div
       id="consent"
-      className="fixed inset-0 z-[80] grid place-items-center p-4"
-      style={{ background: 'rgba(18,30,58,.55)' }}
+      className="fixed inset-0 z-[99999] grid place-items-center p-4 backdrop-blur-sm"
+      style={{ background: 'rgba(18,30,58,.65)' }}
     >
       <div
         role="dialog"

@@ -32,7 +32,7 @@ export default function SiteHeader() {
         <div className="flex items-center gap-2">
           <Link
             href="/#jangkauan"
-            className="inline-flex min-h-[44px] items-center border border-white/70 px-5 text-[13px] font-medium uppercase tracking-wide text-white hover:bg-white hover:text-navy focus-ring"
+            className="inline-flex min-h-[44px] items-center border border-white/70 px-5 text-[13px] font-semibold uppercase tracking-wide text-white hover:bg-white hover:text-navy active:bg-white active:text-navy focus:bg-white focus:text-navy focus-ring transition-colors"
           >
             Buka Peta
           </Link>

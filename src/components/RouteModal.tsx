@@ -71,7 +71,7 @@ export default function RouteModal({ isOpen, initialCorridorCode, onClose }: Pro
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-navy/75 backdrop-blur-md transition-opacity duration-200"
+      className="fixed inset-0 z-[99995] flex items-center justify-center p-3 sm:p-6 bg-navy/75 backdrop-blur-md transition-opacity duration-200"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-route-title"

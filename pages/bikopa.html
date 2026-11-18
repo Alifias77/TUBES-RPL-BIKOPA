@@ -469,7 +469,7 @@
             <li class="flex gap-2"><span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-coral"></span>Info rute dan halte tetap terbuka saat offline</li>
           </ul>
           <div class="mt-6 flex flex-wrap gap-3">
-            <button id="btn-full" type="button" class="inline-flex min-h-[44px] items-center rounded-lg border-2 border-coral px-6 text-sm font-bold text-coral hover:bg-coral hover:text-white focus-ring">Buka Peta Penuh</button>
+            <button id="btn-full" type="button" class="inline-flex min-h-[44px] items-center rounded-xl bg-coral px-6 text-sm font-bold text-white shadow-md hover:bg-[#e63946] focus-ring transition-colors">Buka Peta Penuh</button>
             <a href="peta.html" class="inline-flex min-h-[44px] items-center rounded-lg bg-navy px-6 text-sm font-bold text-white hover:bg-navy/90 focus-ring transition-colors">Buka Halaman Peta &rarr;</a>
           </div>
         </div>
@@ -536,7 +536,7 @@
   </div>
 
   <!-- Location Consent Modal (US-02) -->
-  <div id="consent" hidden class="fixed inset-0 z-[80] grid place-items-center p-4" style="background: rgba(18,30,58,.55);">
+  <div id="consent" hidden class="fixed inset-0 z-[99999] grid place-items-center p-4 backdrop-blur-sm" style="background: rgba(18,30,58,.65);">
     <div role="dialog" aria-modal="true" aria-labelledby="consent-title" class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
       <h3 id="consent-title" class="display text-2xl font-bold text-navy">Gunakan lokasi Anda?</h3>
       <p class="mt-2 text-sm leading-relaxed text-ink/75">Lokasi dipakai hanya di perangkat Anda untuk mencari halte terdekat. Lokasi tidak dikirim dan tidak disimpan.</p>

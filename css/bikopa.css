@@ -169,6 +169,12 @@ h1, h2, h3 {
   max-height: none !important;
 }
 
+#mapcard:not(.mapfull) {
+  isolation: isolate;
+  position: relative;
+  z-index: 10;
+}
+
 /* Fullscreen Map Mode */
 .mapfull {
   position: fixed !important;

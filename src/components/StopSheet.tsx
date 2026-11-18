@@ -19,8 +19,8 @@ export default function StopSheet({ stopCode, onClose }: Props) {
     <>
       <div
         id="sheet-bg"
-        className="fixed inset-0 z-[65]"
-        style={{ background: 'rgba(18,30,58,.45)' }}
+        className="fixed inset-0 z-[99990] backdrop-blur-sm"
+        style={{ background: 'rgba(18,30,58,.5)' }}
         onClick={onClose}
       />
       <div
@@ -28,7 +28,7 @@ export default function StopSheet({ stopCode, onClose }: Props) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="sheet-title"
-        className="open fixed left-0 right-0 bottom-0 z-[70]"
+        className="open fixed left-0 right-0 bottom-0 z-[99995]"
       >
         <div
           className="mx-auto max-w-[640px] rounded-t-3xl bg-white shadow-xl"

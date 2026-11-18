@@ -143,7 +143,7 @@ export default function MapPreview({
         <div
           id="mapcard"
           className={`min-w-0 overflow-hidden bg-white ring-1 ring-ink/10 shadow-lg ${
-            isFullScreen ? 'mapfull' : 'rounded-3xl'
+            isFullScreen ? 'mapfull' : 'rounded-3xl relative isolate z-10'
           }`}
         >
           {/* Header Bar: Filter Koridor & Action Buttons */}
@@ -315,9 +315,20 @@ export default function MapPreview({
             id="btn-full"
             type="button"
             onClick={() => setIsFullScreen(!isFullScreen)}
-            className="mt-6 inline-flex min-h-[44px] items-center rounded-lg border-2 border-coral px-6 text-sm font-bold text-coral hover:bg-coral hover:text-white focus-ring transition-colors"
+            className={`mt-6 inline-flex min-h-[44px] items-center gap-2 rounded-xl px-6 text-sm font-bold shadow-md focus-ring transition-all ${
+              isFullScreen
+                ? 'bg-navy text-white hover:bg-navy/90 ring-2 ring-navy'
+                : 'bg-coral text-white hover:bg-[#e63946] active:bg-[#d62839]'
+            }`}
           >
-            {isFullScreen ? 'Tutup Peta Penuh' : 'Buka Peta Penuh'}
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              {isFullScreen ? (
+                <path d="M6 6l12 12M18 6L6 18" />
+              ) : (
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+              )}
+            </svg>
+            <span>{isFullScreen ? 'Tutup Peta Penuh' : 'Buka Peta Penuh'}</span>
           </button>
         </div>
       </div>
