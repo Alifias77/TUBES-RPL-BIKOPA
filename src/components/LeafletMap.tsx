@@ -369,18 +369,18 @@ export default function LeafletMap({
     if (!mapInstanceRef.current) return;
 
     const map = mapInstanceRef.current;
-    map.invalidateSize({ pan: false });
+    const targetCenter: [number, number] = userPin ? [userPin.lat, userPin.lng] : [-0.88, 119.87];
+
+    map.invalidateSize();
     const t1 = setTimeout(() => {
       if (mapInstanceRef.current) {
-        mapInstanceRef.current.invalidateSize({ pan: false });
-        if (userPin) {
-          mapInstanceRef.current.panTo([userPin.lat, userPin.lng]);
-        }
+        mapInstanceRef.current.invalidateSize();
+        mapInstanceRef.current.panTo(targetCenter, { animate: false });
       }
     }, 60);
     const t2 = setTimeout(() => {
       if (mapInstanceRef.current) {
-        mapInstanceRef.current.invalidateSize({ pan: false });
+        mapInstanceRef.current.invalidateSize();
       }
     }, 200);
 
@@ -412,12 +412,16 @@ export default function LeafletMap({
 
   return (
     <div
-      ref={mapContainerRef}
       className={`w-full z-0 ${
         isFullScreen
-          ? 'h-full min-h-[300px]'
+          ? 'h-full flex-1 min-h-[300px]'
           : 'h-[360px] sm:h-[420px] md:h-[460px]'
       }`}
-    />
+    >
+      <div
+        ref={mapContainerRef}
+        className="leaflet-container w-full h-full min-h-[300px]"
+      />
+    </div>
   );
 }

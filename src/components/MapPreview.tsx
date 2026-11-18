@@ -246,7 +246,7 @@ export default function MapPreview({
           </div>
 
           {/* Map Display View (Leaflet OSM Riil dengan Ikon Halte Bus) */}
-          <div className={`relative ${isFullScreen ? 'flex-1 w-full h-full min-h-0' : 'w-full'}`}>
+          <div className={`relative ${isFullScreen ? 'flex-1 w-full h-full min-h-0 flex flex-col' : 'w-full'}`}>
             <LeafletMap
               visibleCorridors={visibleCorridors}
               userPin={userPin}

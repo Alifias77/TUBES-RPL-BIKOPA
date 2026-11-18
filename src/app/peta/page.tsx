@@ -241,7 +241,7 @@ export default function PetaFullPage() {
         </div>
 
         {/* Map Area */}
-        <div className="flex-1 relative w-full h-full min-h-0">
+        <div className="flex-1 relative w-full h-full min-h-0 flex flex-col">
           <LeafletMap
             visibleCorridors={visibleCorridors}
             userPin={userPin}

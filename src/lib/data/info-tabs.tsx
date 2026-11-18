@@ -62,7 +62,7 @@ export const INFO_TAB_ICONS: Record<string, React.ReactNode> = {
 export const INFO_TABS_DATA: TabSection[] = [
   {
     name: 'Jadwal',
-    note: 'Jam operasional 06:00–21:00 dan headway 15 menit adalah nilai awal dari PRD. Menunggu konfirmasi Dishub.',
+    note: '',
     cards: [
       ...CORRIDOR_CODES.map((code) => ({
         icon: 'clock',
@@ -75,7 +75,7 @@ export const INFO_TABS_DATA: TabSection[] = [
   },
   {
     name: 'Halte',
-    note: 'Urutan halte per arah menunggu data Dishub. Koridor tanpa urutan lengkap tidak dipublikasikan di aplikasi final.',
+    note: '',
     cards: [
       ...CORRIDOR_CODES.map((code) => ({
         icon: 'pin',
@@ -94,7 +94,7 @@ export const INFO_TABS_DATA: TabSection[] = [
   },
   {
     name: 'Bantuan',
-    note: 'Aplikasi tidak meminta akun, formulir, atau data pribadi.',
+    note: '',
     cards: [
       {
         icon: 'wifi',

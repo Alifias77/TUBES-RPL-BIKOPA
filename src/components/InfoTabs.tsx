@@ -306,11 +306,6 @@ export default function InfoTabs({ onOpenRouteModal }: Props = {}) {
             ))}
           </div>
         )}
-
-        {/* Tab Clarification Note */}
-        <p id="tab-note" className="mt-4 text-center text-xs text-ink/60">
-          {currentTab.note}
-        </p>
       </div>
     </section>
   );

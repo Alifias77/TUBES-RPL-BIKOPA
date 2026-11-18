@@ -160,6 +160,20 @@ h1, h2, h3 {
   }
 }
 
+/* Leaflet Map & Tile Rules */
+.leaflet-container img,
+.leaflet-tile,
+.leaflet-tile-pane img,
+.leaflet-marker-icon {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
 .mapfull {
   position: fixed !important;
   inset: 0 !important;

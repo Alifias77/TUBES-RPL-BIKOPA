@@ -184,14 +184,14 @@
   var TABS = [
     {
       name: 'Jadwal',
-      note: 'Jam operasional 06:00–21:00 dan headway 15 menit adalah nilai awal dari PRD. Menunggu konfirmasi Dishub.',
+      note: '',
       cards: corrCards(function (code) {
         return '06:00–21:00 · tiap 15 menit · setiap hari. ' + C[code].via + '.';
       }, 'clock')
     },
     {
       name: 'Halte',
-      note: 'Urutan halte per arah menunggu data Dishub. Koridor tanpa urutan lengkap tidak dipublikasikan di aplikasi final.',
+      note: '',
       cards: corrCards(function (code) {
         return C[code].stops + ' halte (Pergi dan Pulang). Lintasan: ' + C[code].via + '.';
       }, 'pin').map(function (c) { c.seq = true; return c; }).concat([
@@ -200,7 +200,7 @@
     },
     {
       name: 'Bantuan',
-      note: 'Aplikasi tidak meminta akun, formulir, atau data pribadi.',
+      note: '',
       cards: [
         { icon: 'wifi', title: 'Mode offline', desc: 'Info rute dan halte tetap terbuka tanpa sinyal. Posisi bus tidak tersedia.' },
         { icon: 'pin', title: 'Halte terdekat', desc: 'Pakai lokasi Anda atau klik titik di peta. Maksimal 3 halte, radius awal 1 km.' },

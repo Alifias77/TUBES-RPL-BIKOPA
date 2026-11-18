@@ -525,7 +525,8 @@
         });
       });
 
-      $('tab-note').textContent = t.note;
+      var tn = $('tab-note');
+      if (tn) tn.textContent = t.note || '';
       Array.prototype.forEach.call(tabBtns, function (tb, k) {
         tb.setAttribute('aria-selected', k === i ? 'true' : 'false');
       });
@@ -926,11 +927,11 @@
   // Jalankan saat script selesai dimuat
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
-      MapEngine.init();
+      if (MapEngine && MapEngine.init) MapEngine.init();
       initAll();
     });
   } else {
-    MapEngine.init();
+    if (MapEngine && MapEngine.init) MapEngine.init();
     initAll();
   }
 

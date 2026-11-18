@@ -160,6 +160,15 @@ h1, h2, h3 {
   }
 }
 
+/* Leaflet Tile & Marker fixes for Tailwind preflight */
+.leaflet-container img,
+.leaflet-tile,
+.leaflet-tile-pane img,
+.leaflet-marker-icon {
+  max-width: none !important;
+  max-height: none !important;
+}
+
 /* Fullscreen Map Mode */
 .mapfull {
   position: fixed !important;

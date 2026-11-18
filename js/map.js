@@ -310,9 +310,16 @@
     var bf = $('btn-full');
     if (bf) bf.textContent = on ? 'Tutup Peta Penuh' : 'Buka Peta Penuh';
     if (map) {
-      map.invalidateSize({ pan: false });
-      setTimeout(function () { map.invalidateSize({ pan: false }); }, 80);
-      setTimeout(function () { map.invalidateSize({ pan: false }); }, 250);
+      map.invalidateSize();
+      setTimeout(function () {
+        if (map) {
+          map.invalidateSize();
+          map.panTo([-0.885, 119.875], { animate: false });
+        }
+      }, 80);
+      setTimeout(function () {
+        if (map) map.invalidateSize();
+      }, 250);
     }
   }
 
