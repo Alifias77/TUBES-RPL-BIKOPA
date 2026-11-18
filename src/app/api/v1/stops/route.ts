@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { BUS_STOPS } from '@/lib/data/stops';
+import { supabase, isSupabaseConfigured, withTimeout } from '@/lib/supabaseClient';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -7,6 +8,39 @@ export async function GET(req: NextRequest) {
   const corridor = searchParams.get('corridor')?.toUpperCase();
   const type = searchParams.get('type')?.toUpperCase();
 
+  if (isSupabaseConfigured() && supabase) {
+    try {
+      let query = supabase.from('bus_stops').select('*').eq('is_active', true);
+
+      if (type) {
+        query = query.eq('stop_type', type);
+      }
+      if (q) {
+        query = query.ilike('name', `%${q}%`);
+      }
+
+      const { data, error } = await withTimeout(query.order('stop_code', { ascending: true }), 1200);
+
+      if (!error && data && data.length > 0) {
+        let filtered = data;
+        if (corridor) {
+          // Jika ada filter koridor, filter berdasarkan relasi atau array
+          filtered = data.filter((s: any) =>
+            Array.isArray(s.corridors) ? s.corridors.includes(corridor) : true
+          );
+        }
+        return NextResponse.json({
+          source: 'database',
+          total: filtered.length,
+          data: filtered,
+        });
+      }
+    } catch (err) {
+      console.warn('Gagal memuat halte dari Supabase, beralih ke data master lokal:', err);
+    }
+  }
+
+  // Fallback ke master data lokal 53 halte
   let results = [...BUS_STOPS];
 
   if (corridor) {
@@ -27,6 +61,7 @@ export async function GET(req: NextRequest) {
   }
 
   return NextResponse.json({
+    source: 'static_fallback',
     total: results.length,
     data: results,
   });

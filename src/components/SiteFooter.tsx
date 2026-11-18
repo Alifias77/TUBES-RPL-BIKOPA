@@ -39,7 +39,7 @@ export default function SiteFooter() {
 
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 py-5">
           <p className="text-xs text-white/50">
-            Kelompok 7, Teknik Informatika, Universitas Tadulako. Versi data v{SYSTEM_INFO.data_version}.
+            Kelompok 7, Teknik Informatika, Universitas Tadulako.
           </p>
           <div className="flex items-center gap-3">
             <a
@@ -48,23 +48,29 @@ export default function SiteFooter() {
             >
               Hubungi Dishub
             </a>
-            <span
-              className="grid h-11 w-11 place-items-center rounded-full bg-white text-navy"
-              aria-hidden="true"
+            <a
+              href={`tel:${SYSTEM_INFO.phone}`}
+              className="grid h-11 w-11 place-items-center rounded-full bg-white text-navy hover:bg-slate-100 focus-ring transition-colors"
+              title={`Hubungi Telepon Dishub: ${SYSTEM_INFO.phone}`}
+              aria-label="Hubungi Telepon Dinas Perhubungan Kota Palu"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" />
               </svg>
-            </span>
-            <span
-              className="grid h-11 w-11 place-items-center rounded-full bg-white text-navy"
-              aria-hidden="true"
+            </a>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Dinas+Perhubungan+Kota+Palu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="grid h-11 w-11 place-items-center rounded-full bg-white text-navy hover:bg-slate-100 focus-ring transition-colors"
+              title="Buka Lokasi Kantor Dinas Perhubungan Kota Palu di Google Maps"
+              aria-label="Buka Lokasi Kantor Dinas Perhubungan Kota Palu di Google Maps"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z" />
                 <circle cx="12" cy="10" r="2.5" />
               </svg>
-            </span>
+            </a>
           </div>
         </div>
       </div>

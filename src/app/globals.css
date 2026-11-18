@@ -163,9 +163,9 @@ h1, h2, h3 {
 .mapfull {
   position: fixed !important;
   inset: 0 !important;
-  z-index: 60 !important;
+  z-index: 9999 !important;
   background: #ffffff !important;
-  overflow-y: auto !important;
+  overflow: hidden !important;
   border-radius: 0 !important;
   margin: 0 !important;
   width: 100vw !important;

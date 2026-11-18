@@ -162,13 +162,31 @@ h1, h2, h3 {
 
 /* Fullscreen Map Mode */
 .mapfull {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  background: var(--paper);
-  overflow: auto;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  background: var(--paper) !important;
+  overflow: hidden !important;
   border-radius: 0 !important;
+  margin: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
   padding: env(safe-area-inset-top, 0px) max(0px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(0px, env(safe-area-inset-left, 0px));
+}
+
+.mapfull .relative {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.mapfull #map {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
 }
 
 /* Schematic SVG Styles */

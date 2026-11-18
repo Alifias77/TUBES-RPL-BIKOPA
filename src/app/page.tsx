@@ -70,19 +70,41 @@ export default function HomePage() {
       watchIdRef.current = null;
     }
 
+    const applyPosition = (pos: GeolocationPosition) => {
+      setIsLocating(false);
+      const { latitude, longitude, accuracy } = pos.coords;
+      setUserLocation({
+        lat: latitude,
+        lng: longitude,
+        accuracy: accuracy || undefined,
+        timestamp: pos.timestamp,
+      });
+    };
+
+    // 1. Ambil posisi cepat terlebih dahulu (< 1 detik) menggunakan cache / wifi triangulation
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        applyPosition(pos);
+      },
+      (err) => {
+        // Jangan blokir jika quick fix gagal, watchPosition di bawah akan mencoba kembali
+        console.warn('Quick position warning:', err.message);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 3500,
+        maximumAge: 300000,
+      }
+    );
+
+    // 2. Pantau pembaruan posisi presisi tinggi secara efisien
     try {
       const id = navigator.geolocation.watchPosition(
         (pos) => {
-          setIsLocating(false);
-          const { latitude, longitude, accuracy } = pos.coords;
-          setUserLocation({
-            lat: latitude,
-            lng: longitude,
-            accuracy: accuracy || undefined,
-            timestamp: pos.timestamp,
-          });
+          applyPosition(pos);
         },
         (err) => {
+          // Hanya tampilkan error jika belum ada posisi yang berhasil didapatkan
           setIsLocating(false);
           console.warn('Geolocation watch error:', err.message);
           let message = 'Gagal membaca lokasi GPS.';
@@ -93,12 +115,12 @@ export default function HomePage() {
           } else if (err.code === 3) {
             message = 'Waktu pencarian lokasi GPS habis.';
           }
-          setLocationError(message);
+          setLocationError((prev) => (userLocation ? prev : message));
         },
         {
           enableHighAccuracy: true,
-          timeout: 15000,
-          maximumAge: 0,
+          timeout: 8000,
+          maximumAge: 5000,
         }
       );
       watchIdRef.current = id;

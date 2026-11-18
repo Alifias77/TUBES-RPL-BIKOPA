@@ -657,10 +657,14 @@
           return;
         }
 
+        if (panel) {
+          panel.innerHTML = '<div class="flex items-center gap-2 text-navy font-semibold"><span class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-coral border-t-transparent"></span> Menentukan lokasi Anda & mencari halte terdekat...</div>';
+        }
+
         var denied = function () {
           selBus = null;
           if (panel) {
-            panel.innerHTML = '<p class="font-bold text-navy">Lokasi tidak dapat dibaca.</p><p class="mt-1 text-ink/70">Klik titik di peta untuk melihat halte terdekat.</p>';
+            panel.innerHTML = '<p class="font-bold text-navy">Lokasi tidak dapat dibaca.</p><p class="mt-1 text-ink/70">Klik titik mana saja di peta secara manual untuk melihat halte terdekat.</p>';
           }
         };
 
@@ -677,7 +681,7 @@
           if (panel) {
             showNearby(pos.coords.latitude, pos.coords.longitude);
           }
-        }, denied, { timeout: 6000 });
+        }, denied, { timeout: 4000, maximumAge: 300000 });
       });
     }
   }
@@ -719,6 +723,24 @@
     if (sx) sx.addEventListener('click', closeSheet);
     var sbg = $('sheet-bg');
     if (sbg) sbg.addEventListener('click', closeSheet);
+
+    var mapFullBtn = $('map-full');
+    if (mapFullBtn) {
+      mapFullBtn.addEventListener('click', function () {
+        if (window.BikopaMap && window.BikopaMap.toggleFull) {
+          window.BikopaMap.toggleFull();
+        }
+      });
+    }
+
+    var btnFull = $('btn-full');
+    if (btnFull) {
+      btnFull.addEventListener('click', function () {
+        if (window.BikopaMap && window.BikopaMap.toggleFull) {
+          window.BikopaMap.toggleFull();
+        }
+      });
+    }
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {

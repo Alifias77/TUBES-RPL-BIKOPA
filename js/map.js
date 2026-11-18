@@ -306,11 +306,13 @@
     card.classList.toggle('mapfull', on);
     document.body.style.overflow = on ? 'hidden' : '';
     var mf = $('map-full');
-    if (mf) mf.textContent = on ? 'Tutup' : 'Layar penuh';
+    if (mf) mf.textContent = on ? 'Tutup Peta' : 'Layar penuh';
     var bf = $('btn-full');
     if (bf) bf.textContent = on ? 'Tutup Peta Penuh' : 'Buka Peta Penuh';
     if (map) {
-      setTimeout(function () { map.invalidateSize(); }, 200);
+      map.invalidateSize({ pan: false });
+      setTimeout(function () { map.invalidateSize({ pan: false }); }, 80);
+      setTimeout(function () { map.invalidateSize({ pan: false }); }, 250);
     }
   }
 

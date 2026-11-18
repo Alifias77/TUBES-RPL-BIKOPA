@@ -368,17 +368,27 @@ export default function LeafletMap({
   useEffect(() => {
     if (!mapInstanceRef.current) return;
 
-    mapInstanceRef.current.invalidateSize();
-    const t1 = setTimeout(() => mapInstanceRef.current?.invalidateSize(), 60);
-    const t2 = setTimeout(() => mapInstanceRef.current?.invalidateSize(), 200);
-    const t3 = setTimeout(() => mapInstanceRef.current?.invalidateSize(), 400);
+    const map = mapInstanceRef.current;
+    map.invalidateSize({ pan: false });
+    const t1 = setTimeout(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize({ pan: false });
+        if (userPin) {
+          mapInstanceRef.current.panTo([userPin.lat, userPin.lng]);
+        }
+      }
+    }, 60);
+    const t2 = setTimeout(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize({ pan: false });
+      }
+    }, 200);
 
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
-      clearTimeout(t3);
     };
-  }, [isFullScreen]);
+  }, [isFullScreen, userPin]);
 
   // Otomatis arahkan dan pusatkan peta ke lokasi pengguna (flyTo)
   useEffect(() => {
@@ -403,9 +413,9 @@ export default function LeafletMap({
   return (
     <div
       ref={mapContainerRef}
-      className={`w-full z-0 transition-[height] duration-200 ${
+      className={`w-full z-0 ${
         isFullScreen
-          ? 'h-[calc(100vh-140px)] sm:h-[calc(100vh-150px)] min-h-[420px]'
+          ? 'h-full min-h-[300px]'
           : 'h-[360px] sm:h-[420px] md:h-[460px]'
       }`}
     />

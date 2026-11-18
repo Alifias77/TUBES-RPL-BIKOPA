@@ -142,12 +142,12 @@ export default function MapPreview({
       <div className="wrap grid items-center gap-10 lg:grid-cols-[1.35fr_1fr] w-full">
         <div
           id="mapcard"
-          className={`min-w-0 overflow-hidden rounded-3xl bg-white ring-1 ring-ink/10 shadow-lg ${
-            isFullScreen ? 'mapfull' : ''
+          className={`min-w-0 overflow-hidden bg-white ring-1 ring-ink/10 shadow-lg ${
+            isFullScreen ? 'mapfull' : 'rounded-3xl'
           }`}
         >
-          {/* Header Bar: Filter Koridor */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ink/10 bg-mist p-3">
+          {/* Header Bar: Filter Koridor & Action Buttons */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ink/10 bg-mist p-3 shrink-0 z-20">
             <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter koridor">
               <button
                 type="button"
@@ -181,32 +181,20 @@ export default function MapPreview({
                 );
               })}
             </div>
-          </div>
 
-          {/* Map Display View (Leaflet OSM Riil dengan Ikon Halte Bus) */}
-          <div className="relative">
-            <LeafletMap
-              visibleCorridors={visibleCorridors}
-              userPin={userPin}
-              centerTrigger={centerTrigger}
-              isFullScreen={isFullScreen}
-              onOpenSheet={onOpenSheet}
-              onMapClick={handleLeafletMapClick}
-            />
-
-            {/* Top Toolbar Action Buttons */}
-            <div className="absolute right-3 top-3 z-10 flex items-center gap-2">
+            {/* Quick Actions in Header */}
+            <div className="flex items-center gap-2 ml-auto">
               {onRequestLocation && (
                 <button
                   type="button"
                   onClick={onRequestLocation}
                   title="Deteksi Lokasi GPS Saya"
-                  className={`inline-flex min-h-[40px] items-center gap-1.5 rounded-lg backdrop-blur px-3 py-1.5 text-xs font-bold shadow-md ring-1 ring-ink/10 focus-ring transition-all ${
+                  className={`inline-flex min-h-[38px] items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold shadow-sm ring-1 ring-ink/10 focus-ring transition-all ${
                     userLocation
                       ? 'bg-sky-600 text-white hover:bg-sky-700'
                       : isLocating
                       ? 'bg-white text-sky-600 animate-pulse'
-                      : 'bg-white/95 text-navy hover:bg-white'
+                      : 'bg-white text-navy hover:bg-slate-100'
                   }`}
                 >
                   {isLocating ? (
@@ -222,7 +210,7 @@ export default function MapPreview({
                     </svg>
                   )}
                   <span>
-                    {isLocating ? 'Mencari GPS...' : userLocation ? 'Lokasi Saya Aktif' : 'Lokasi Saya'}
+                    {isLocating ? 'Mencari GPS...' : userLocation ? 'Lokasi Aktif' : 'Lokasi Saya'}
                   </span>
                 </button>
               )}
@@ -231,22 +219,69 @@ export default function MapPreview({
                 id="map-full"
                 type="button"
                 onClick={() => setIsFullScreen(!isFullScreen)}
-                className="inline-flex min-h-[40px] items-center gap-2 rounded-lg bg-white/95 backdrop-blur px-3 py-1.5 text-xs font-bold text-navy shadow-md ring-1 ring-ink/10 focus-ring hover:bg-white"
+                className={`inline-flex min-h-[38px] items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-bold shadow-md ring-1 ring-ink/10 focus-ring transition-all ${
+                  isFullScreen
+                    ? 'bg-coral text-white hover:brightness-110'
+                    : 'bg-white text-navy hover:bg-slate-100'
+                }`}
+                aria-label={isFullScreen ? 'Tutup layar penuh' : 'Buka layar penuh'}
               >
-                {isFullScreen ? 'Tutup Peta' : 'Layar Penuh'}
+                {isFullScreen ? (
+                  <>
+                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+                      <path d="M6 6l12 12M18 6L6 18" />
+                    </svg>
+                    <span>Tutup Peta Penuh</span>
+                  </>
+                ) : (
+                  <>
+                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                    </svg>
+                    <span>Layar Penuh</span>
+                  </>
+                )}
               </button>
             </div>
           </div>
 
-          {/* Map Info Panel (Nearby List & GPS Accuracy Status) */}
-          <MapInfoPanel
-            nearbyResults={nearbyResults}
-            isGps={userPin?.isGps}
-            accuracy={userPin?.accuracy}
-            isLocating={isLocating}
-            locationError={locationError}
-            onOpenSheet={onOpenSheet}
-          />
+          {/* Map Display View (Leaflet OSM Riil dengan Ikon Halte Bus) */}
+          <div className={`relative ${isFullScreen ? 'flex-1 w-full h-full min-h-0' : 'w-full'}`}>
+            <LeafletMap
+              visibleCorridors={visibleCorridors}
+              userPin={userPin}
+              centerTrigger={centerTrigger}
+              isFullScreen={isFullScreen}
+              onOpenSheet={onOpenSheet}
+              onMapClick={handleLeafletMapClick}
+            />
+
+            {/* In fullscreen mode, floating Info Panel overlay at bottom left */}
+            {isFullScreen && nearbyResults && (
+              <div className="absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-md z-[1000] max-h-[42vh] overflow-y-auto rounded-2xl bg-white/95 backdrop-blur shadow-2xl ring-1 ring-ink/10">
+                <MapInfoPanel
+                  nearbyResults={nearbyResults}
+                  isGps={userPin?.isGps}
+                  accuracy={userPin?.accuracy}
+                  isLocating={isLocating}
+                  locationError={locationError}
+                  onOpenSheet={onOpenSheet}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Normal inline Map Info Panel */}
+          {!isFullScreen && (
+            <MapInfoPanel
+              nearbyResults={nearbyResults}
+              isGps={userPin?.isGps}
+              accuracy={userPin?.accuracy}
+              isLocating={isLocating}
+              locationError={locationError}
+              onOpenSheet={onOpenSheet}
+            />
+          )}
         </div>
 
         {/* Right Info Section */}

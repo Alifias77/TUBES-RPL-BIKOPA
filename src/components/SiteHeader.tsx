@@ -22,20 +22,20 @@ export default function SiteHeader() {
 
         <ul className="hidden items-center gap-7 text-[13px] font-medium uppercase tracking-wide text-white/85 lg:flex">
           <li><Link className="rounded hover:text-white focus-ring" href="/#beranda">Beranda</Link></li>
-          <li><a className="rounded hover:text-white focus-ring" href="/#armada">Koridor</a></li>
-          <li><a className="rounded hover:text-white focus-ring" href="/#layanan">Jadwal</a></li>
-          <li><a className="rounded hover:text-white focus-ring" href="/#rute">Hub</a></li>
-          <li><a className="rounded hover:text-white focus-ring" href="/#jangkauan">Peta</a></li>
-          <li><a className="rounded hover:text-white focus-ring" href="/#kontak">Kontak</a></li>
+          <li><Link className="rounded hover:text-white focus-ring" href="/#armada">Koridor</Link></li>
+          <li><Link className="rounded hover:text-white focus-ring" href="/#layanan">Jadwal</Link></li>
+          <li><Link className="rounded hover:text-white focus-ring" href="/#rute">Hub</Link></li>
+          <li><Link className="rounded hover:text-white focus-ring" href="/#jangkauan">Peta</Link></li>
+          <li><Link className="rounded hover:text-white focus-ring" href="/#kontak">Kontak</Link></li>
         </ul>
 
         <div className="flex items-center gap-2">
-          <a
+          <Link
             href="/#jangkauan"
             className="inline-flex min-h-[44px] items-center border border-white/70 px-5 text-[13px] font-medium uppercase tracking-wide text-white hover:bg-white hover:text-navy focus-ring"
           >
             Buka Peta
-          </a>
+          </Link>
           <button
             id="menu-btn"
             type="button"
@@ -56,11 +56,11 @@ export default function SiteHeader() {
         <div id="menu" className="border-t border-white/15 lg:hidden font-nav">
           <ul className="wrap gutter grid grid-cols-2 gap-x-4 py-2 text-sm font-medium uppercase tracking-wide text-white/90">
             <li><Link onClick={() => setMenuOpen(false)} className="flex min-h-[44px] items-center" href="/#beranda">Beranda</Link></li>
-            <li><a onClick={() => setMenuOpen(false)} className="flex min-h-[44px] items-center" href="/#armada">Koridor</a></li>
-            <li><a onClick={() => setMenuOpen(false)} className="flex min-h-[44px] items-center" href="/#layanan">Jadwal</a></li>
-            <li><a onClick={() => setMenuOpen(false)} className="flex min-h-[44px] items-center" href="/#rute">Hub</a></li>
-            <li><a onClick={() => setMenuOpen(false)} className="flex min-h-[44px] items-center" href="/#jangkauan">Peta</a></li>
-            <li><a onClick={() => setMenuOpen(false)} className="flex min-h-[44px] items-center" href="/#kontak">Kontak</a></li>
+            <li><Link onClick={() => setMenuOpen(false)} className="flex min-h-[44px] items-center" href="/#armada">Koridor</Link></li>
+            <li><Link onClick={() => setMenuOpen(false)} className="flex min-h-[44px] items-center" href="/#layanan">Jadwal</Link></li>
+            <li><Link onClick={() => setMenuOpen(false)} className="flex min-h-[44px] items-center" href="/#rute">Hub</Link></li>
+            <li><Link onClick={() => setMenuOpen(false)} className="flex min-h-[44px] items-center" href="/#jangkauan">Peta</Link></li>
+            <li><Link onClick={() => setMenuOpen(false)} className="flex min-h-[44px] items-center" href="/#kontak">Kontak</Link></li>
           </ul>
         </div>
       )}

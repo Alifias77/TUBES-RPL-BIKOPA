@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { TelemetryLocationSchema, BulkTelemetrySchema } from '@/lib/types';
 import { isWithinKotaPalu } from '@/lib/geo';
 import { updateBusTelemetry } from '@/lib/store';
+import { supabaseAdmin, isSupabaseConfigured } from '@/lib/supabaseClient';
 
 export async function POST(req: NextRequest) {
   try {
@@ -44,7 +45,7 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      // Update bus live state in store
+      // Update bus live state in-memory store
       updateBusTelemetry(
         point.hull_number,
         point.lat,
@@ -52,6 +53,35 @@ export async function POST(req: NextRequest) {
         point.speed,
         point.heading
       );
+
+      // Sinkronisasi ke Supabase jika tersedia (asinkron & aman)
+      if (isSupabaseConfigured() && supabaseAdmin) {
+        Promise.resolve(
+          supabaseAdmin
+            .from('bus_live_state')
+            .upsert(
+              {
+                hull_number: point.hull_number,
+                latitude: point.lat,
+                longitude: point.lng,
+                speed_kmh: point.speed,
+                heading: point.heading,
+                tracking_status: 'ACTIVE',
+                last_seen_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+              },
+              { onConflict: 'hull_number' }
+            )
+        )
+          .then((res: any) => {
+            if (res?.error) {
+              console.warn('Gagal sinkronisasi telemetri ke Supabase:', res.error.message);
+            }
+          })
+          .catch((err: unknown) => {
+            console.warn('Supabase telemetry ingest error:', err);
+          });
+      }
     }
 
     return NextResponse.json(

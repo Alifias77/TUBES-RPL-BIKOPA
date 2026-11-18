@@ -1,0 +1,34 @@
+name: Supabase Auto-Keep-Alive
+
+on:
+  schedule:
+    # Berjalan setiap 3 hari sekali pada pukul 00:00 UTC (08:00 WITA)
+    - cron: '0 0 */3 * *'
+  workflow_dispatch: # Memungkinkan eksekusi manual via tombol "Run workflow" di GitHub
+
+jobs:
+  keep-alive:
+    name: Ping Supabase Database
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        run: |
+          if [ -z "${{ secrets.SUPABASE_URL }}" ] || [ -z "${{ secrets.SUPABASE_ANON_KEY }}" ]; then
+            echo "::warning ::Secrets SUPABASE_URL atau SUPABASE_ANON_KEY belum diatur di repository secrets. Melewati ping."
+            exit 0
+          fi
+
+          echo "Mengirim ping ke Supabase REST endpoint..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/corridors?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}")
+
+          echo "Respons HTTP Code: $HTTP_STATUS"
+
+          if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 400 ]; then
+            echo "Berhasil! Database Supabase aktif dan merespons dengan baik."
+          else
+            echo "::error ::Supabase mengembalikan kode HTTP $HTTP_STATUS"
+            exit 1
+          fi
